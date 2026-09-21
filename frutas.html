@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>IubClase</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <h2 id="vendedor" class=""></h2>
+    <p class="">Inventario del día · plaza de mercado</p>
+
+
+    <div class="">
+    <input
+        id="buscarFruta"
+        type="text"
+        placeholder="Buscar producto…"
+        class=""
+       />
+
+    <button
+        type="button"
+        class=""
+        onclick="limpiarFiltro()"
+    >
+        Limpiar
+    </button>
+    </div>
+
+    <div class="">
+    <table>
+        <thead class="">
+        <tr>
+            <th class="">Producto</th>
+            <th class="">Precio</th>
+            <th class="">Cantidad</th>
+            <th class="">Subtotal</th>
+            <th class="">Acciones</th>
+        </tr>
+        </thead>
+        <tbody id="tablaFrutas"></tbody>
+    </table>
+    </div>
+
+    <div class="">
+    <div class="">
+        <div class="">Total en dinero</div>
+        <div class="" id="total"></div>
+    </div>
+    <div class="">
+        <div class="">Unidades en el puesto</div>
+        <div class="" id="unidades"></div>
+    </div>
+    </div>
+    
+    <div id="vtm" class="">
+        <p class="">Jornada de venta mayorista</p>
+    </div>
+    
+
+    <p id="mensaje" class="mt-4 text-xs text-slate-400">
+    </p>
+
+<script src="./frutas.js"></script>
+</body>
+</html>
