@@ -1,15 +1,8 @@
-<!--
-  BINDING 1 · INTERPOLACIÓN {{ }}  ·  de la clase a la pantalla
-  Fíjense en los paréntesis de vendedor(): es una signal, y una signal se lee
-  LLAMÁNDOLA. Sin paréntesis se mostraría la función, no el valor.
--->
+
 <h2 class="text-2xl font-bold text-slate-900">Puesto de {{ vendedor() }}</h2>
 <p class="mt-1 text-sm text-slate-500">Inventario del día · plaza de mercado</p>
 
-<!--
-  BINDING 3 · EVENTOS ( )  ·  de la pantalla a la clase
-  (input) se dispara con cada tecla y manda el $event al método.
--->
+
 <div class="mt-6 flex gap-2">
   <input
     type="text"
@@ -19,11 +12,7 @@
     (input)="onFiltrar($event)"
   />
 
-  <!--
-    BINDING 2 · PROPIEDADES [ ]  ·  de la clase a la pantalla
-    Lo que va entre comillas es una EXPRESIÓN, no un texto: se evalúa y da
-    verdadero o falso. El botón se apaga solo cuando no hay nada que limpiar.
-  -->
+  
   <button
     type="button"
     class="rounded-lg bg-slate-800 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-30"
@@ -34,7 +23,7 @@
   </button>
 </div>
 
-<!-- LA TABLA · @for con su track. Sin track, el compilador da el error NG5002. -->
+
 <div class="mt-4 overflow-x-auto rounded-xl border border-slate-200">
   <table class="w-full text-left text-sm">
     <thead class="bg-slate-900 text-xs uppercase tracking-wider text-white">
@@ -48,7 +37,7 @@
     </thead>
     <tbody>
       @for (p of visibles(); track p.nombre) {
-        <!-- [class.x] pone y quita la clase sola, según la condición -->
+        
         <tr
           class="border-t border-slate-100"
           [class.opacity-40]="p.cantidad === 0"
@@ -56,7 +45,7 @@
           <td class="px-4 py-3 font-semibold text-slate-900">{{ p.nombre }}</td>
           <td class="px-4 py-3 text-slate-600">{{ p.precio }}</td>
           <td class="px-4 py-3 text-slate-600">{{ p.cantidad }}</td>
-          <!-- dentro de {{ }} cabe una operación, no solo un nombre -->
+        
           <td class="px-4 py-3 font-semibold text-slate-900">
             {{ p.precio * p.cantidad }}
           </td>
@@ -76,10 +65,17 @@
             >
               +10
             </button>
+            <button
+              type="button"
+              class="ml-1 rounded-md bg-amber-400 px-3 py-1 text-xs font-bold text-slate-900 disabled:opacity-30"
+              [disabled]="p.cantidad === 0"
+              (click)="venderLote(p.nombre)"
+            >
+              Vender por lote
+            </button>
           </td>
         </tr>
       } @empty {
-        <!-- @empty resuelve gratis el caso de la lista vacía -->
         <tr>
           <td colspan="5" class="px-4 py-8 text-center text-slate-400">
             Ningún producto coincide con «{{ filtro() }}»
@@ -90,7 +86,7 @@
   </table>
 </div>
 
-<!-- LOS VALORES DERIVADOS · también se leen con paréntesis -->
+
 <div class="mt-4 grid gap-3 sm:grid-cols-2">
   <div class="rounded-xl bg-slate-900 px-5 py-4 text-white">
     <div class="text-xs uppercase tracking-widest text-amber-400">Total en dinero</div>
@@ -102,10 +98,7 @@
   </div>
 </div>
 
-<!--
-  @if · esto es tema de la S03, pero es el requisito 5 del Taller 01
-  y aquí ya se ve funcionando.
--->
+
 @if (total() > 50000) {
   <div class="mt-3 rounded-lg border-l-4 border-emerald-500 bg-emerald-50 px-5 py-3">
     <p class="text-sm font-semibold text-emerald-900">Jornada de venta mayorista</p>

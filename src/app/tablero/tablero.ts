@@ -35,11 +35,14 @@ export class Tablero {
     this.productos().reduce((suma, p) => suma + p.cantidad, 0),
   );
 
+ ordenados = computed(() =>[... this.productos()].sort((a,b) => 
+  (b.precio * b.cantidad) - (a.precio * a.cantidad)
+));
   
   visibles = computed(() => {
     const texto = this.filtro().toLowerCase().trim();
-    if (texto === '') return this.productos();
-    return this.productos().filter((p) => p.nombre.toLowerCase().includes(texto));
+    if (texto === '') return this.ordenados();
+    return this.ordenados().filter((p) => p.nombre.toLowerCase().includes(texto));
   });
 
   
@@ -52,6 +55,16 @@ export class Tablero {
       ),
     );
     
+  }
+
+  venderLote(nombre: string){
+    this.productos.update((lista) =>
+      lista.map((p) =>
+        p.nombre === nombre && p.cantidad > 0 
+          ? { ...p, cantidad: 0}
+          : p,
+      ),
+    );
   }
 
   reabastecer(nombre: string) {
