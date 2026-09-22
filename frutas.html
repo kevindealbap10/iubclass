@@ -6,63 +6,405 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 30px 20px;
+      font-family: Arial, sans-serif;
+      background-color: #f0fdf4;
+      color: #1f2937;
+    }
+
+    .contenedor {
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .encabezado {
+      margin-bottom: 25px;
+    }
+
+    .encabezado h2 {
+      margin: 0;
+      color: #166534;
+      font-size: 30px;
+    }
+
+    .encabezado p {
+      color: #64748b;
+      margin-top: 6px;
+    }
+
+    .buscador {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .buscador input {
+      flex: 1;
+      padding: 12px 15px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .buscador input:focus {
+      border-color: #22c55e;
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+    }
+
+    .buscador button {
+      padding: 12px 18px;
+      border: none;
+      border-radius: 8px;
+      background-color: #166534;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .buscador button:hover {
+      background-color: #15803d;
+    }
+
+
+    .tabla-contenedor {
+      overflow-x: auto;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background-color: #166534;
+      color: white;
+    }
+
+    th {
+      padding: 14px;
+      text-align: left;
+    }
+
+    td {
+      padding: 13px 14px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    tbody tr:hover {
+      background-color: #f0fdf4;
+    }
+
+
+    td button {
+      padding: 7px 10px;
+      margin-right: 5px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    td button:first-child {
+      background-color: #dc2626;
+      color: white;
+    }
+
+    td button:first-child:hover {
+      background-color: #b91c1c;
+    }
+
+    td button:last-child {
+      background-color: #22c55e;
+      color: white;
+    }
+
+    td button:last-child:hover {
+      background-color: #16a34a;
+    }
+
+    td button:disabled {
+      background-color: #cbd5e1;
+      cursor: not-allowed;
+    }
+
+    .resumen {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .tarjeta {
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      border-left: 5px solid #22c55e;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .titulo-tarjeta {
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .valor {
+      color: #166534;
+      font-size: 26px;
+      font-weight: bold;
+    }
+
+    .mayorista {
+      display: none;
+      margin-top: 20px;
+      padding: 15px 20px;
+      border-left: 5px solid #16a34a;
+      border-radius: 8px;
+      background-color: #dcfce7;
+      color: #166534;
+    }
+
+    .mayorista p {
+      margin: 0;
+      font-weight: bold;
+    }
+
+    .mensaje {
+      margin-top: 15px;
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+
+      body {
+        padding: 20px 10px;
+      }
+
+      .encabezado h2 {
+        font-size: 24px;
+      }
+
+      .buscador {
+        flex-direction: column;
+      }
+
+      .buscador button {
+        width: 100%;
+      }
+
+      .resumen {
+        grid-template-columns: 1fr;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        font-size: 13px;
+      }
+
+    }
+
+  </style>
 </head>
 <body>
-    <h2 id="vendedor" class=""></h2>
-    <p class="">Inventario del día · plaza de mercado</p>
+    <main class="contenedor">
+        <header class="encabezado">
+            <h2 id="vendedor"></h2>
+            <p>Inventario del día · plaza de mercado</p>
+        </header>
+
+        <section class="buscador">
+            <input id="buscarFruta" type="text"
+            placeholder="Buscar producto…"
+            />
+            
+            <button type="button" onclick="limpiarFiltro()">
+             Limpiar
+            </button>
+        </section>
+
+        <section class="tabla-contenedor">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaFrutas"></tbody>
+            </table>
+        </section>
+
+        <section class="resumen">
+            <div class="tarjeta">
+                <div class="titulo-tarjeta">
+                    Total en dinero
+                </div>
+                <div class="valor" id="total"></div>
+            </div>
+            
+            <div class="tarjeta">
+                <div class="titulo-tarjeta">
+                    Unidades en el puesto
+                </div>
+                <div class="valor" id="unidades"></div>
+            </div>
+        
+        </section>
+        
+        <div id="vtm" class="mayorista">
+            <p>Jornada de venta mayorista</p>
+        </div>
+        
+        <p id="mensaje" class="mt-4 text-xs text-slate-400"></p>
+    </main>
+<script>
+    document.getElementById("vendedor").textContent =" puesto  de Don Efraín";
+
+let filtro = "";
+
+const productos =[
+    { nombre: 'Mango', precio: 1800, cantidad: 12 },
+    { nombre: 'Guayaba', precio: 1200, cantidad: 8 },
+    { nombre: 'Patilla', precio: 6500, cantidad: 2 },
+    { nombre: 'Maracuyá', precio: 3400, cantidad: 5 },
+    { nombre: 'Níspero', precio: 2900, cantidad: 4 },
+  ];
+
+function TablaFrutas(productosMostrados){
+  const tbody= document.getElementById("tablaFrutas")
+  if (!tbody) return;
+
+  let mensaje = "Mostrando " + productosMostrados.length +" de " + productos.length + " productos.";
+
+    document.getElementById("mensaje").textContent = mensaje;
+
+  if(productosMostrados.length === 0){
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">No hay productos que coinsidan con el filtro.</td></tr>`;
+    return
+  }
+
+  if(!productos || productos.length === 0){
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">No hay productos en inventario.</td></tr>`;
+    return
+  }
+
+  tbody.innerHTML = "";
+
+  productosMostrados.forEach( p => {
+    const fila = tbody.insertRow();
+
+    fila.insertCell(0).textContent = p.nombre;
+    fila.insertCell(1).textContent = p.precio;
+    fila.insertCell(2).textContent = p.cantidad;
+    fila.insertCell(3).textContent = p.precio * p.cantidad;
+
+    const tdButton = document.createElement("td")
+
+    const btnvender = document.createElement("button");
+    btnvender.type = 'button'
+    btnvender.textContent = "vender 1"
+    btnvender.disabled = p.cantidad === 0;
+    btnvender.addEventListener('click',() =>{
+        vender(p.nombre);
+    });
+
+    const btn10 = document.createElement("button");
+    btn10.type = 'button'
+    btn10.textContent = "+10"
+    btn10.addEventListener('click',() =>{
+        reabastecer(p.nombre);
+    });
+
+    tdButton.appendChild(btnvender);
+    tdButton.appendChild(btn10);
+
+    fila.appendChild(tdButton);
+  });
+}
 
 
-    <div class="">
-    <input
-        id="buscarFruta"
-        type="text"
-        placeholder="Buscar producto…"
-        class=""
-       />
+function calcularTotal(productos){
+    return productos.reduce(
+        (suma,p) => suma + p.precio * p.cantidad, 0
+    );
+}
 
-    <button
-        type="button"
-        class=""
-        onclick="limpiarFiltro()"
-    >
-        Limpiar
-    </button>
-    </div>
+function calcularUnidades(productos){
+    return productos.reduce(
+        (suma,p) => suma + p.cantidad, 0
+    );
+}
 
-    <div class="">
-    <table>
-        <thead class="">
-        <tr>
-            <th class="">Producto</th>
-            <th class="">Precio</th>
-            <th class="">Cantidad</th>
-            <th class="">Subtotal</th>
-            <th class="">Acciones</th>
-        </tr>
-        </thead>
-        <tbody id="tablaFrutas"></tbody>
-    </table>
-    </div>
+function vender(nombre){
+    const producto = productos.find((p) => p.nombre === nombre);
 
-    <div class="">
-    <div class="">
-        <div class="">Total en dinero</div>
-        <div class="" id="total"></div>
-    </div>
-    <div class="">
-        <div class="">Unidades en el puesto</div>
-        <div class="" id="unidades"></div>
-    </div>
-    </div>
-    
-    <div id="vtm" class="">
-        <p class="">Jornada de venta mayorista</p>
-    </div>
-    
+    if (producto && producto.cantidad > 0) {
+        producto.cantidad--;
+    }
 
-    <p id="mensaje" class="mt-4 text-xs text-slate-400">
-    </p>
+    mostrarDatos()
+}
 
-<script src="./frutas.js"></script>
+function reabastecer (nombre){
+    const producto = productos.find((p) => p.nombre === nombre);
+
+    if (producto){
+        producto.cantidad += 10;
+    }
+
+    mostrarDatos()
+}
+
+function frutasFiltradas(){
+    const caja = document.getElementById("buscarFruta");
+    const nombre = caja.value.toLowerCase().trim();
+
+    const filtrados = productos.filter((p) => 
+        p.nombre.toLowerCase().includes(nombre)
+    );
+
+    TablaFrutas(filtrados)
+  }
+
+function limpiarFiltro(){
+    document.getElementById("buscarFruta").value = "";
+    TablaFrutas(productos);
+    mostrarDatos();
+}
+
+function mostrarDatos(){
+    TablaFrutas(productos);
+    const total = calcularTotal(productos)
+    document.getElementById("total").textContent = total
+
+    document.getElementById("unidades").textContent = calcularUnidades(productos);
+
+    if (total > 50000){
+        document.getElementById("vtm").style.display = 'block';
+    }else{
+        document.getElementById("vtm").style.display = 'none';
+    }
+}
+
+mostrarDatos();
+
+document.getElementById("buscarFruta").addEventListener("input", frutasFiltradas);
+</script>
 </body>
 </html>
