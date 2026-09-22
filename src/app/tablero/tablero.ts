@@ -35,9 +35,25 @@ export class Tablero {
     this.productos().reduce((suma, p) => suma + p.cantidad, 0),
   );
 
+  agotados = computed(() =>
+    this.productos().reduce((acumulador, p) => p.cantidad === 0 ? acumulador + 1 : acumulador, 0),
+  );
+
+  stockdown = computed (() =>
+    this.productos().reduce((acumulador, p) => 
+      p.cantidad >= 1 && p.cantidad <=2 ? acumulador + 1 : acumulador, 0),
+  );
+
+
  ordenados = computed(() =>[... this.productos()].sort((a,b) => 
   (b.precio * b.cantidad) - (a.precio * a.cantidad)
 ));
+
+productoCaro = computed(() =>
+    this.productos().reduce((p, caro) => 
+      p.precio > caro.precio ? p : caro
+    ),
+  );
   
   visibles = computed(() => {
     const texto = this.filtro().toLowerCase().trim();

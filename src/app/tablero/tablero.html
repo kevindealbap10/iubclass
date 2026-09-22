@@ -36,8 +36,7 @@
       </tr>
     </thead>
     <tbody>
-      @for (p of visibles(); track p.nombre) {
-        
+      @for (p of visibles(); track p.nombre) {  
         <tr
           class="border-t border-slate-100"
           [class.opacity-40]="p.cantidad === 0"
@@ -87,16 +86,40 @@
 </div>
 
 
-<div class="mt-4 grid gap-3 sm:grid-cols-2">
+<div class="mt-4 grid gap-3 sm:grid-cols-3">
   <div class="rounded-xl bg-slate-900 px-5 py-4 text-white">
     <div class="text-xs uppercase tracking-widest text-amber-400">Total en dinero</div>
-    <div class="mt-1 text-3xl font-bold">{{ total() }}</div>
+    <div class="mt-1 text-3xl font-bold">${{ total() }}</div>
   </div>
   <div class="rounded-xl bg-slate-100 px-5 py-4">
     <div class="text-xs uppercase tracking-widest text-slate-500">Unidades en el puesto</div>
     <div class="mt-1 text-3xl font-bold text-slate-900">{{ unidades() }}</div>
   </div>
+  <div class="rounded-xl bg-slate-100 px-5 py-4">
+    <div class="text-xs uppercase tracking-widest text-slate-500">Productos agotados</div>
+    <div class="mt-1 text-3xl font-bold text-slate-900">{{ agotados() }}</div>
+  </div>
 </div>
+
+@if (stockdown(); as productos) {
+  <div class="mt-3 rounded-lg border-l-4 border-yellow-500 bg-yellow-50 px-5 py-3">
+    <p class="text-sm font-semibold text-yellow-900"> 
+       ⚠️ {{productos}} articulos están por debajo del stock minimo establecido.</p>
+  </div>
+}
+
+@if (productoCaro(); as producto){
+  <div class="mt-3 rounded-lg border-l-4 border-emerald-500 bg-emerald-50 px-5 py-3">
+    <p class="text-sm font-semibold text-emerald-900"> Producto más caro</p>
+    <p class="text-sm font-semibold text-emerald-900">
+     {{ producto.nombre }} - ${{producto.precio}}
+    </p>
+  </div>
+} @else {
+  <div class="mt-3 rounded-lg border-l-4 border-emerald-500 bg-emerald-50 px-5 py-3">
+    <p class="text-sm font-semibold text-emerald-900">Producto más caro: No hay productos</p>
+  </div>
+}
 
 
 @if (total() > 50000) {
