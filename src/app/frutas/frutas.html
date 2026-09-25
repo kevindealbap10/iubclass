@@ -1,0 +1,25 @@
+<h1>Inventario del puesto</h1>
+<table>
+  <thead>
+    <tr><th>Fruta</th><th>Precio</th><th>Cantidad</th><th>Subtotal</th></tr>
+  </thead>
+  <tbody>
+    @for (f of frutas(); track f.nombre) {
+      <tr>
+        <td>{{ f.nombre }}</td>
+        <td>{{ f.precio }}</td>
+        <td>{{ f.cantidad }}</td>
+        <td>{{ f.precio * f.cantidad }}</td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+<p>Total en dinero: <strong>{{ totalDinero() }}</strong></p>
+<p>Total de unidades: <strong>{{ totalUnidades() }}</strong></p>
+
+@if (esMayorista()) {
+  <div class="aviso">Jornada de venta mayorista</div>
+}
+
+<button (click)="venderMango()">Vender un mango</button>

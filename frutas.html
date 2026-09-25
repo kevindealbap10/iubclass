@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Puesto de Don Efraín</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: right; }
+    th:first-child, td:first-child { text-align: left; }
+    .aviso { background: #ffe58f; padding: 10px; font-weight: bold; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Inventario del puesto</h1>
+  <table id="tabla">
+    <thead>
+      <tr><th>Fruta</th><th>Precio</th><th>Cantidad</th><th>Subtotal</th></tr>
+    </thead>
+    <tbody id="cuerpoTabla"></tbody>
+  </table>
+
+  <p>Total en dinero: <strong id="totalDinero"></strong></p>
+  <p>Total de unidades: <strong id="totalUnidades"></strong></p>
+  <div id="aviso" class="aviso" style="display:none">Jornada de venta mayorista</div>
+
+  <button id="btnVender">Vender un mango</button>
+
+  <script>
+    let frutas = [
+      { nombre: "Mango",    precio: 1800, cantidad: 12 },
+      { nombre: "Guayaba",  precio: 1200, cantidad: 8  },
+      { nombre: "Patilla",  precio: 6500, cantidad: 2  },
+      { nombre: "Maracuyá", precio: 3400, cantidad: 5  },
+      { nombre: "Níspero",  precio: 2900, cantidad: 4  },
+    ];
+
+    function render() {
+      const cuerpo = document.getElementById("cuerpoTabla");
+      cuerpo.innerHTML = ""; // hay que limpiar y reconstruir a mano
+      let totalDinero = 0;
+      let totalUnidades = 0;
+
+      frutas.forEach(f => {
+        const subtotal = f.precio * f.cantidad;
+        totalDinero += subtotal;
+        totalUnidades += f.cantidad;
+
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+          <td>${f.nombre}</td>
+          <td>${f.precio}</td>
+          <td>${f.cantidad}</td>
+          <td>${subtotal}</td>
+        `;
+        cuerpo.appendChild(fila);
+      });
+
+      document.getElementById("totalDinero").textContent = totalDinero.toLocaleString();
+      document.getElementById("totalUnidades").textContent = totalUnidades;
+
+      const aviso = document.getElementById("aviso");
+      aviso.style.display = totalDinero > 50000 ? "block" : "none";
+    }
+
+    document.getElementById("btnVender").addEventListener("click", () => {
+      const mango = frutas.find(f => f.nombre === "Mango");
+      if (mango.cantidad > 0) mango.cantidad--;
+      render(); // hay que llamar la función manualmente, si no, la pantalla no se entera
+    });
+
+    render(); // primer dibujado
+  ;
+  </script>
+</body>
+</html>

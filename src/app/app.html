@@ -1,5 +1,4 @@
 <div class="min-h-screen bg-slate-50 text-slate-900">
-  <!-- ENCABEZADO -->
   <header class="border-b-4 border-amber-400 bg-slate-900 text-white">
     <div class="mx-auto max-w-5xl px-6 py-5">
       <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-amber-400">
@@ -8,33 +7,22 @@
       <h1 class="mt-1 text-2xl font-bold">{{ titulo() }}</h1>
     </div>
 
-    <!-- NAVEGACIÓN · routerLink no recarga la página, cambia la vista -->
     <nav class="mx-auto flex max-w-5xl gap-1 px-6">
-      <a
-        routerLink="/tablero"
-        routerLinkActive="bg-slate-50 text-slate-900"
-        class="rounded-t-lg px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white"
-      >
+      <a routerLink="/tablero" routerLinkActive="bg-slate-50 text-slate-900" class="rounded-t-lg px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white">
         Tablero
       </a>
-      <a
-        routerLink="/s03"
-        routerLinkActive="bg-slate-50 text-slate-900"
-        class="rounded-t-lg px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white"
-      >
+      <a routerLink="/s03" routerLinkActive="bg-slate-50 text-slate-900" class="rounded-t-lg px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white">
         S03 · Ejemplos
       </a>
-      <a
-        routerLink="/acerca"
-        routerLinkActive="bg-slate-50 text-slate-900"
-        class="rounded-t-lg px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white"
-      >
+      <a routerLink="/acerca" routerLinkActive="bg-slate-50 text-slate-900" class="rounded-t-lg px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white">
         Acerca
+      </a>
+      <a routerLink="/frutas" routerLinkActive="bg-slate-50 text-slate-900" class="rounded-t-lg px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white">
+        Frutas
       </a>
     </nav>
   </header>
 
-  <!-- AQUÍ el enrutador pone el componente de la ruta actual -->
   <main class="mx-auto max-w-5xl px-6 py-8">
     <router-outlet />
   </main>
