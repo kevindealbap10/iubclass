@@ -19,11 +19,6 @@
     (input)="onFiltrar($event)"
   />
 
-  <!--
-    BINDING 2 · PROPIEDADES [ ]  ·  de la clase a la pantalla
-    Lo que va entre comillas es una EXPRESIÓN, no un texto: se evalúa y da
-    verdadero o falso. El botón se apaga solo cuando no hay nada que limpiar.
-  -->
   <button
     type="button"
     class="rounded-lg bg-slate-800 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-30"
@@ -48,7 +43,6 @@
     </thead>
     <tbody>
       @for (p of visibles(); track p.nombre) {
-        <!-- [class.x] pone y quita la clase sola, según la condición -->
         <tr
           class="border-t border-slate-100"
           [class.opacity-40]="p.cantidad === 0"
@@ -56,7 +50,6 @@
           <td class="px-4 py-3 font-semibold text-slate-900">{{ p.nombre }}</td>
           <td class="px-4 py-3 text-slate-600">{{ p.precio }}</td>
           <td class="px-4 py-3 text-slate-600">{{ p.cantidad }}</td>
-          <!-- dentro de {{ }} cabe una operación, no solo un nombre -->
           <td class="px-4 py-3 font-semibold text-slate-900">
             {{ p.precio * p.cantidad }}
           </td>
@@ -79,7 +72,6 @@
           </td>
         </tr>
       } @empty {
-        <!-- @empty resuelve gratis el caso de la lista vacía -->
         <tr>
           <td colspan="5" class="px-4 py-8 text-center text-slate-400">
             Ningún producto coincide con «{{ filtro() }}»
@@ -100,6 +92,60 @@
     <div class="text-xs uppercase tracking-widest text-slate-500">Unidades en el puesto</div>
     <div class="mt-1 text-3xl font-bold text-slate-900">{{ unidades() }}</div>
   </div>
+</div>
+
+<!-- ===========================================================
+     RETO S02 · los cinco puntos
+=========================================================== -->
+<div class="mt-4 grid gap-3 sm:grid-cols-3">
+  <div class="rounded-xl bg-slate-100 px-5 py-4">
+    <div class="text-xs uppercase tracking-widest text-slate-500">Productos agotados</div>
+    <div class="mt-1 text-3xl font-bold text-slate-900">{{ agotados() }}</div>
+  </div>
+
+  @if (productoMasCaro(); as p) {
+    <div class="rounded-xl bg-slate-100 px-5 py-4">
+      <div class="text-xs uppercase tracking-widest text-slate-500">Producto más caro</div>
+      <div class="mt-1 text-lg font-bold text-slate-900">{{ p.nombre }} · {{ p.precio }}</div>
+    </div>
+  }
+</div>
+
+@if (hayInventarioBajo()) {
+  <div class="mt-3 rounded-lg border-l-4 border-amber-500 bg-amber-50 px-5 py-3">
+    <p class="text-sm font-semibold text-amber-900">Aviso: hay productos con inventario bajo</p>
+  </div>
+}
+
+<h3 class="mt-6 text-lg font-bold text-slate-900">Ordenado por subtotal (mayor a menor)</h3>
+<div class="mt-2 overflow-x-auto rounded-xl border border-slate-200">
+  <table class="w-full text-left text-sm">
+    <thead class="bg-slate-900 text-xs uppercase tracking-wider text-white">
+      <tr>
+        <th class="px-4 py-3">Producto</th>
+        <th class="px-4 py-3">Subtotal</th>
+        <th class="px-4 py-3">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (p of ordenados(); track p.nombre) {
+        <tr class="border-t border-slate-100">
+          <td class="px-4 py-3 font-semibold text-slate-900">{{ p.nombre }}</td>
+          <td class="px-4 py-3 text-slate-600">{{ p.precio * p.cantidad }}</td>
+          <td class="px-4 py-3">
+            <button
+              type="button"
+              class="rounded-md bg-red-400 px-3 py-1 text-xs font-bold text-white disabled:opacity-30"
+              [disabled]="p.cantidad === 0"
+              (click)="venderTodo(p.nombre)"
+            >
+              Vender todo
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
 </div>
 
 <!--
