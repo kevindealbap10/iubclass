@@ -1,0 +1,119 @@
+<!-- Taller 01 · Parte B · versión Angular — el puesto de frutas de don Efraín -->
+
+<section class="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+
+  <!-- Encabezado + botón del Reto 5 (ordenar por subtotal) -->
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <h2 class="text-2xl font-bold text-slate-900">Puesto de frutas de don Efraín</h2>
+      <p class="mt-1 text-sm text-slate-500">Taller 01 · Parte B · componentes, signals y computed</p>
+    </div>
+    <button
+      type="button"
+      class="rounded-lg px-4 py-2 text-sm font-semibold {{ orden() === 'subtotal' ? 'bg-slate-900 text-white' : 'bg-amber-400 text-slate-900' }}"
+      (click)="alternarOrden()"
+    >
+      {{ orden() === 'subtotal' ? 'Ver orden del puesto' : 'Ordenar por subtotal' }}
+    </button>
+  </div>
+
+  <!-- Requisito 5 · El mensaje. Una línea de @if, y aparece/desaparece solo. -->
+  @if (esMayorista()) {
+    <div class="mt-4 rounded-lg border-l-4 border-emerald-500 bg-emerald-50 px-5 py-3">
+      <p class="text-sm font-semibold text-emerald-900">Jornada de venta mayorista</p>
+    </div>
+  }
+
+  <!-- Reto 2 · Aviso de inventario bajo -->
+  @if (inventarioBajo()) {
+    <div class="mt-3 rounded-lg border-l-4 border-amber-500 bg-amber-50 px-5 py-3">
+      <p class="text-sm font-semibold text-amber-900">
+        Hay frutas con inventario bajo (entre 1 y 2 unidades). ¡A reponer!
+      </p>
+    </div>
+  }
+
+  <!-- La tabla. @for con track (sin track, NG5002). [class.x] marca las agotadas. -->
+  <div class="mt-4 overflow-x-auto rounded-xl border border-slate-200">
+    <table class="w-full text-left text-sm">
+      <thead class="bg-slate-900 text-xs uppercase tracking-wider text-white">
+        <tr>
+          <th class="px-4 py-3">Fruta</th>
+          <th class="px-4 py-3 text-right">Precio</th>
+          <th class="px-4 py-3 text-right">Cantidad</th>
+          <th class="px-4 py-3 text-right">Subtotal</th>
+          <th class="px-4 py-3">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (f of filas(); track f.nombre) {
+          <tr
+            class="border-t border-slate-100"
+            [class.opacity-40]="f.cantidad === 0"
+          >
+            <td class="px-4 py-3 font-semibold text-slate-900">{{ f.nombre }}</td>
+            <td class="px-4 py-3 text-right text-slate-600">{{ f.precio }}</td>
+            <td class="px-4 py-3 text-right text-slate-600">{{ f.cantidad }}</td>
+            <!-- El subtotal se calcula, no se escribe a mano -->
+            <td class="px-4 py-3 text-right font-semibold text-slate-900">{{ subtotal(f) }}</td>
+            <td class="px-4 py-3">
+              <!-- Requisito 3 · [disabled] apaga el botón solo cuando se agota -->
+              <button
+                type="button"
+                class="rounded-md bg-amber-400 px-3 py-1 text-xs font-bold text-slate-900 disabled:opacity-30"
+                [disabled]="f.cantidad === 0"
+                (click)="vender(f.nombre)"
+              >
+                Vender 1
+              </button>
+              <!-- Reto 4 · Vender todo lo que queda -->
+              <button
+                type="button"
+                class="ml-1 rounded-md bg-slate-200 px-3 py-1 text-xs font-bold text-slate-700 disabled:opacity-30"
+                [disabled]="f.cantidad === 0"
+                (click)="venderTodo(f.nombre)"
+              >
+                Vender todo
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="5" class="px-4 py-8 text-center text-slate-400">
+              Sin frutas en el puesto.
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Resumen: totales y contador, todos computeds leídos con paréntesis -->
+  <div class="mt-4 grid gap-3 sm:grid-cols-3">
+    <div class="rounded-xl bg-slate-900 px-5 py-4 text-white">
+      <div class="text-xs uppercase tracking-widest text-amber-400">Total en dinero</div>
+      <div class="mt-1 text-3xl font-bold">{{ totalDinero() }}</div>
+    </div>
+    <div class="rounded-xl bg-slate-100 px-5 py-4">
+      <div class="text-xs uppercase tracking-widest text-slate-500">Total de unidades</div>
+      <div class="mt-1 text-3xl font-bold text-slate-900">{{ totalUnidades() }}</div>
+    </div>
+    <div class="rounded-xl bg-slate-100 px-5 py-4">
+      <div class="text-xs uppercase tracking-widest text-slate-500">Productos agotados</div>
+      <div class="mt-1 text-3xl font-bold text-slate-900">{{ agotados() }}</div>
+    </div>
+  </div>
+
+  <!-- Reto 3 · El más caro (computed con reduce, maneja lista vacía con @else) -->
+  <div class="mt-3 flex flex-wrap items-center gap-3 text-sm text-slate-600">
+    <span class="text-xs uppercase tracking-widest text-slate-500">Fruta más cara:</span>
+    @if (masCaro(); as caro) {
+      <span class="rounded-full bg-amber-100 px-3 py-1 font-bold text-amber-900">
+        {{ caro.nombre }} · {{ caro.precio }}
+      </span>
+    } @else {
+      <span class="rounded-full bg-slate-100 px-3 py-1 text-slate-400">Sin productos</span>
+    }
+  </div>
+
+</section>

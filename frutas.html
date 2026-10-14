@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taller 01 · Parte A · El puesto de frutas (versión tradicional)</title>
+<style>
+  :root {
+    --navy: #1a2a4a;
+    --navy-deep: #0f1a33;
+    --yellow: #f4c220;
+    --yellow-deep: #d9a800;
+    --gray: #475569;
+    --line: #e2e8f0;
+    --bg: #eef1f6;
+    --white: #ffffff;
+    --ok: #10b981;
+    --ok-bg: #ecfdf5;
+    --ok-text: #065f46;
+    --warn: #c44545;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Calibri, 'Trebuchet MS', Arial, sans-serif;
+    background: linear-gradient(160deg, var(--bg) 0%, #f8fafc 100%);
+    color: var(--navy);
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+  main {
+    max-width: 780px;
+    margin: 0 auto;
+    background: var(--white);
+    border-radius: 18px;
+    border-top: 6px solid var(--yellow);
+    box-shadow: 0 18px 40px rgba(15, 23, 42, .10);
+    padding: 30px 32px 32px;
+  }
+  h1 { font-size: 24px; font-weight: 800; letter-spacing: -.3px; }
+  p.sub { color: var(--gray); margin: 8px 0 20px; font-size: 14px; }
+  p.sub strong { color: var(--navy); }
+
+  #mensaje-mayorista {
+    display: none; /* arranca OCULTO: el requisito 5 lo muestra/oculta a mano */
+    margin-bottom: 18px;
+    padding: 13px 18px;
+    border-left: 5px solid var(--ok);
+    background: var(--ok-bg);
+    color: var(--ok-text);
+    border-radius: 0 10px 10px 0;
+    font-weight: 700;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, .12);
+  }
+  #mensaje-mayorista::before { content: '✔ '; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  thead th {
+    background: var(--navy);
+    color: #fff;
+    text-align: left;
+    padding: 11px 14px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+  }
+  thead th:first-child { border-radius: 10px 0 0 0; }
+  thead th:last-child  { border-radius: 0 10px 0 0; }
+  tbody td { padding: 11px 14px; border-bottom: 1px solid var(--line); transition: background .12s; }
+  tbody tr:nth-child(even) td { background: #f6f8fb; }
+  tbody tr:hover td { background: #fdf6dd; }
+  tbody tr.agotada { opacity: .38; }
+  tr { transition: opacity .15s; }
+  td.num, .num { text-align: right; font-variant-numeric: tabular-nums; }
+  td { font-variant-numeric: tabular-nums; }
+
+  td button {
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 800;
+    border-radius: 9px;
+    border: none;
+    cursor: pointer;
+    letter-spacing: .2px;
+    transition: transform .08s, filter .15s, box-shadow .15s;
+  }
+  td button:active { transform: scale(.96); }
+  .vender { background: var(--yellow); color: var(--navy-deep); box-shadow: 0 2px 6px rgba(244, 194, 32, .35); }
+  .vender:hover:not(:disabled) { filter: brightness(1.06); box-shadow: 0 4px 10px rgba(244, 194, 32, .45); }
+  .vender:disabled { opacity: .35; cursor: not-allowed; box-shadow: none; }
+  .todo { background: #e2e8f0; color: #334155; margin-left: 6px; }
+  .todo:hover:not(:disabled) { background: #cbd5e1; }
+  .todo:disabled { opacity: .35; cursor: not-allowed; }
+
+  .resumen { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 20px; }
+  .caja { border-radius: 14px; padding: 16px 20px; background: #f1f5f9; border: 1px solid var(--line); }
+  .caja .etiqueta { font-size: 11px; text-transform: uppercase; letter-spacing: 1.6px; color: var(--gray); font-weight: 800; }
+  .caja .valor { font-size: 30px; font-weight: 800; margin-top: 3px; font-variant-numeric: tabular-nums; }
+  .caja.total { background: var(--navy); color: #fff; border: none; }
+  .caja.total .etiqueta { color: var(--yellow); }
+  .caja.total .valor { color: var(--yellow); }
+
+  p.nota { margin-top: 16px; font-size: 12.5px; color: #94a3b8; text-align: center; }
+
+  @media (max-width: 560px) {
+    main { padding: 22px 18px; }
+    .resumen { grid-template-columns: 1fr; }
+    thead th, tbody td { padding: 9px 8px; font-size: 13px; }
+    td button { padding: 5px 10px; }
+    .todo { margin-left: 0; margin-top: 5px; }
+  }
+  @media print {
+    body { background: #fff; padding: 0; }
+    main { box-shadow: none; border: 1px solid var(--line); }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Puesto de frutas de don Efraín</h1>
+  <p class="sub">Taller 01 · <strong>Parte A</strong> · versión tradicional: HTML, CSS y JavaScript a mano.</p>
+
+  <!-- Requisito 5 · el hueco del mensaje, escrito a mano y OCULTO por defecto -->
+  <div id="mensaje-mayorista">Jornada de venta mayorista</div>
+
+  <!-- Requisito 1 · la tabla: el tbody arranca vacío y lo pinta JavaScript -->
+  <table>
+    <thead>
+      <tr>
+        <th>Fruta</th>
+        <th class="num">Precio</th>
+        <th class="num">Cantidad</th>
+        <th class="num">Subtotal</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+
+  <!-- Requisitos 2 y 4 · los huecos de los dos totales -->
+  <div class="resumen">
+    <div class="caja total">
+      <div class="etiqueta">Total en dinero</div>
+      <div class="valor" id="total-dinero">0</div>
+    </div>
+    <div class="caja">
+      <div class="etiqueta">Total de unidades</div>
+      <div class="valor" id="total-unidades">0</div>
+    </div>
+  </div>
+
+  <p class="nota">
+    Nota: este archivo se abre con doble clic. No necesita servidor ni Node.
+  </p>
+</main>
+
+<script>
+  // Los datos. Iguales a los del enunciado y a los de la versión Angular.
+  const frutas = [
+    { nombre: 'Mango',    precio: 1800, cantidad: 12 },
+    { nombre: 'Guayaba',  precio: 1200, cantidad: 8  },
+    { nombre: 'Patilla',  precio: 6500, cantidad: 2  },
+    { nombre: 'Maracuyá', precio: 3400, cantidad: 5  },
+    { nombre: 'Níspero',  precio: 2900, cantidad: 4  },
+  ];
+
+  const tbody        = document.getElementById('tbody');
+  const totalDinero  = document.getElementById('total-dinero');
+  const totalUnidades = document.getElementById('total-unidades');
+  const mensaje      = document.getElementById('mensaje-mayorista');
+
+  // ---------------------------------------------------------------------------
+  //  PINTAR TODO de una vez. Acá está EL PUNTO del taller: cada vez que cambia
+  //  un dato hay que VOLVER A LLAMAR a pintar(). Si se olvida, el dato cambia
+  //  pero la pantalla no, y no hiere ningún error. (Parte C, punto 3.)
+  // ---------------------------------------------------------------------------
+  function pintar() {
+    // 1 · la tabla se reconstruye fila por fila
+    tbody.innerHTML = '';
+    for (const f of frutas) {
+      const tr = document.createElement('tr');
+      if (f.cantidad === 0) tr.classList.add('agotada');
+
+      const cNombre  = document.createElement('td');
+      cNombre.textContent = f.nombre;
+      tr.appendChild(cNombre);
+
+      const cPrecio = document.createElement('td');
+      cPrecio.className = 'num';
+      cPrecio.textContent = f.precio;
+      tr.appendChild(cPrecio);
+
+      const cCantidad = document.createElement('td');
+      cCantidad.className = 'num';
+      cCantidad.textContent = f.cantidad;
+      tr.appendChild(cCantidad);
+
+      // el subtotal se CALCULA (precio × cantidad), nunca se escribe a mano
+      const cSubtotal = document.createElement('td');
+      cSubtotal.className = 'num';
+      cSubtotal.textContent = f.precio * f.cantidad;
+      tr.appendChild(cSubtotal);
+
+      // botones: 'Vender 1' (requisito 3) y 'Vender todo'
+      const cAcciones = document.createElement('td');
+      const boton1 = document.createElement('button');
+      boton1.className = 'vender';
+      boton1.textContent = 'Vender 1';
+      boton1.dataset.nombre = f.nombre;
+      boton1.disabled = f.cantidad === 0;
+      cAcciones.appendChild(boton1);
+
+      const botonTodo = document.createElement('button');
+      botonTodo.className = 'todo';
+      botonTodo.textContent = 'Vender todo';
+      botonTodo.dataset.nombre = f.nombre;
+      botonTodo.dataset.todo = '1';
+      botonTodo.disabled = f.cantidad === 0;
+      cAcciones.appendChild(botonTodo);
+
+      tr.appendChild(cAcciones);
+      tbody.appendChild(tr);
+    }
+
+    // 2 · los dos totales (requisitos 2 y 4) se recalculan EN CADA repintado
+    let dinero = 0;
+    let unidades = 0;
+    for (const f of frutas) {
+      dinero   += f.precio * f.cantidad;
+      unidades += f.cantidad;
+    }
+    totalDinero.textContent   = dinero;
+    totalUnidades.textContent = unidades;
+
+    // 3 · requisito 5: mostrar u ocultar el mensaje A MANO según el total
+    if (dinero > 50000) {
+      mensaje.style.display = 'block';
+    } else {
+      mensaje.style.display = 'none';
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  //  Cambiar un dato y ACORDARSE de volver a pintar (paso 4 de la parte A).
+  //  La acción se engancha con addEventListener: un oyente solo, por delegación.
+  // ---------------------------------------------------------------------------
+  tbody.addEventListener('click', (e) => {
+    const boton = e.target.closest('button');
+    if (!boton) return;
+
+    const f = frutas.find((x) => x.nombre === boton.dataset.nombre);
+    if (!f || f.cantidad === 0) return;
+
+    if (boton.dataset.todo) {
+      f.cantidad = 0;        // 'Vender todo'
+    } else {
+      f.cantidad--;          // 'Vender 1'
+    }
+    pintar();                // SIN esto, los datos cambian y la pantalla no
+  });
+
+  // Primer pintado al cargar
+  pintar();
+</script>
+</body>
+</html>

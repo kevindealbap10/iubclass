@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COM30 · Reto S02 · Ampliar el tablero de la plaza</title>
+<style>
+:root{--navy:#1A2A4A;--navy-deep:#0F1A33;--yellow:#F4C220;--yellow-deep:#D9A800;
+--gray:#595959;--line:#E8E8EE;--bg:#F7F7FA;--white:#fff;--ok:#2D8A4E;--warn:#C44545;--blue:#1A4DAA;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Calibri','Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--navy);line-height:1.6}
+.page{max-width:900px;margin:0 auto;background:var(--white);box-shadow:0 0 30px rgba(0,0,0,.06)}
+header{background:var(--navy);color:#fff;padding:30px 44px;border-top:6px solid var(--yellow)}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:2.5px;color:var(--yellow);font-weight:800}
+h1{font-size:27px;font-weight:800;line-height:1.2;margin-top:6px}
+h1 em{color:var(--yellow);font-style:italic}
+.meta{font-size:12.5px;color:rgba(255,255,255,.75);margin-top:8px}
+.strip{background:var(--navy-deep);color:#fff;display:grid;grid-template-columns:repeat(4,1fr)}
+.strip div{padding:14px 20px;border-right:1px solid rgba(255,255,255,.1)}
+.strip div:last-child{border-right:none}
+.strip .l{font-size:10px;text-transform:uppercase;letter-spacing:1.8px;color:var(--yellow);font-weight:800}
+.strip .v{font-size:15px;font-weight:800;margin-top:3px}
+main{padding:34px 44px 44px}
+h2{font-size:19px;color:var(--navy);margin:32px 0 12px;padding-bottom:7px;border-bottom:2px solid var(--yellow)}
+h2:first-child{margin-top:0}
+h3{font-size:15.5px;color:var(--navy);margin:20px 0 7px}
+p{margin-bottom:11px;font-size:14.5px}
+ul,ol{margin:0 0 12px 22px}
+li{margin-bottom:7px;font-size:14.5px}
+code{font-family:'Consolas','Courier New',monospace;background:#EEF0F5;padding:1px 5px;border-radius:3px;font-size:13.5px;color:var(--navy-deep)}
+pre{font-family:'Consolas','Courier New',monospace;background:var(--navy-deep);color:#E8E8EE;
+padding:16px 18px;border-radius:7px;border-left:5px solid var(--yellow);overflow-x:auto;
+font-size:13px;line-height:1.55;margin:12px 0}
+pre .c{color:#8FA3B8}
+pre .k{color:var(--yellow);font-weight:700}
+pre .s{color:#9BD8A0}
+pre .m{color:#E3A6FF;font-weight:700}
+.callout{background:#FFFCEC;border-left:5px solid var(--yellow);padding:14px 18px;border-radius:0 7px 7px 0;margin:16px 0}
+.callout.warn{background:#FBEAEA;border-left-color:var(--warn)}
+.callout.ok{background:#EAF5EE;border-left-color:var(--ok)}
+.callout.info{background:#EDF1FA;border-left-color:var(--blue)}
+.callout p:last-child{margin-bottom:0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+th,td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--line)}
+thead th{background:var(--navy);color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:1.2px}
+tbody tr:nth-child(even) td{background:var(--bg)}
+.num{text-align:right;font-family:'Consolas',monospace}
+.req{background:var(--white);border:1px solid var(--line);border-left:5px solid var(--navy);
+padding:13px 17px;margin-bottom:10px;border-radius:0 6px 6px 0}
+.req .t{font-weight:800;font-size:14.5px}
+.req .d{font-size:13.5px;color:var(--gray);margin-top:3px}
+.req.r1{border-left-color:var(--ok)}
+.req.r2{border-left-color:var(--blue)}
+.req.r3{border-left-color:var(--yellow-deep)}
+.req.r4{border-left-color:var(--warn)}
+.pts{float:right;background:var(--navy);color:var(--yellow);font-size:11.5px;font-weight:800;
+padding:2px 9px;border-radius:11px;letter-spacing:.5px}
+footer{background:var(--navy-deep);color:rgba(255,255,255,.75);padding:18px 44px;font-size:12px;
+display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+footer strong{color:#fff}
+@media print{body{background:#fff}.page{box-shadow:none;max-width:none}pre{border:1px solid #ccc}}
+@media(max-width:700px){.strip{grid-template-columns:1fr 1fr}main,header,footer{padding-left:20px;padding-right:20px}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <div class="eyebrow">COM30 · Programación con Frameworks para Web · IUB 2026-III</div>
+  <h1>Reto S02 · <em>Ampliar el tablero de la plaza</em></h1>
+  <div class="meta">RA1 · Corte 1 · Complemento del Taller 01 · Sobre el código construido en clase · Docente: Kevin Erney De Alba Pomárico</div>
+</header>
+
+<section class="strip">
+  <div><div class="l">Modalidad</div><div class="v">Individual</div></div>
+  <div><div class="l">Punto de partida</div><div class="v">El código de la S02</div></div>
+  <div><div class="l">Se entrega</div><div class="v">Domingo 20 sep, 23:59</div></div>
+  <div><div class="l">Dónde</div><div class="v">Aula virtual Moodle</div></div>
+</section>
+
+<main>
+
+<div class="callout ok">
+  <p><strong>Qué es esto y qué no es.</strong> El <strong>Taller 01</strong> es el entregable calificable principal: el puesto de frutas, resuelto dos veces. Este <strong>Reto</strong> es el complemento: no se empieza de cero, se <em>amplía</em> el tablero de la plaza que construimos juntos en clase. Son cinco puntos, de menor a mayor dificultad, y se entregan en la misma actividad del aula.</p>
+  <p>Si solo alcanzas a hacer uno, haz el <strong>Reto 5</strong>. Es el que de verdad enseña algo.</p>
+</div>
+
+<h2>De dónde partes</h2>
+<p>Del tablero que quedó funcionando al final de la clase: la lista de productos en una <code>signal</code>, los dos <code>computed</code> (<code>total</code> y <code>unidades</code>), el buscador con <code>$event</code> y los botones de vender y reabastecer.</p>
+
+<table>
+  <thead><tr><th>Si trabajas…</th><th>Tu punto de partida</th></tr></thead>
+  <tbody>
+    <tr><td><strong>En StackBlitz</strong></td><td>El archivo <code>main.ts</code> que pegaste en clase. Está también en el aula como <code>COM30_S02_stackblitz_main.ts</code>.</td></tr>
+    <tr><td><strong>Con la CLI en tu portátil</strong></td><td>Los archivos <code>tablero.ts</code> y <code>tablero.html</code> del proyecto de clase, publicados en el aula.</td></tr>
+  </tbody>
+</table>
+
+<div class="callout info">
+  <p><strong>Los dos caminos valen igual.</strong> Lo que se evalúa es el código y que funcione, no en qué entorno lo escribiste.</p>
+</div>
+
+<h2>Los cinco retos</h2>
+
+<div class="req r1"><span class="pts">Reto 1</span><div class="t">Contar los productos agotados</div><div class="d">Un <code>computed</code> nuevo que devuelva cuántos productos tienen cantidad cero, y mostrarlo debajo de los otros dos totales. Pista: <code>filter</code> y luego <code>.length</code>.</div></div>
+
+<div class="req r1"><span class="pts">Reto 2</span><div class="t">Aviso de inventario bajo</div><div class="d">Si hay al menos un producto con cantidad <strong>menor que 3</strong> (y mayor que cero), mostrar un aviso amarillo que diga «Hay productos por agotarse». Si no hay ninguno, no debe aparecer nada. Se resuelve con un <code>computed</code> y un <code>@if</code>.</div></div>
+
+<div class="req r2"><span class="pts">Reto 3</span><div class="t">El producto más caro</div><div class="d">Un <code>computed</code> que devuelva el <strong>nombre</strong> del producto de mayor precio, y mostrarlo en pantalla. Pista: <code>reduce</code>, comparando de a dos. Ojo con el caso de la lista vacía.</div></div>
+
+<div class="req r3"><span class="pts">Reto 4</span><div class="t">Vender todo lo que queda</div><div class="d">Un botón por fila, «Vender todo», que deje la cantidad de ese producto en cero de un solo golpe. La fila debe quedar marcada como agotada sola, sin escribir nada extra para eso, y el total debe bajar solo.</div></div>
+
+<div class="req r4"><span class="pts">Reto 5</span><div class="t">Ordenar la tabla por subtotal, de mayor a menor</div><div class="d">Un <code>computed</code> que devuelva la lista ordenada por <code>precio * cantidad</code> descendente, y que el <code>@for</code> lo recorra. <strong>Este reto tiene una trampa y es a propósito.</strong> Léela abajo antes de empezar.</div></div>
+
+<h2>La trampa del Reto 5</h2>
+<p>La forma obvia de ordenar en JavaScript es <code>sort()</code>. Y <code>sort()</code> <strong>modifica el arreglo original por dentro</strong>, exactamente como <code>push</code>. Si lo aplicas directo sobre lo que hay en la signal, vas a estar cometiendo el error de la clase otra vez, con otra ropa.</p>
+
+<pre><span class="c">// MAL — sort modifica la lista que está dentro de la signal</span>
+ordenados = <span class="m">computed</span>(() =&gt;
+  <span class="k">this</span>.<span class="m">productos</span>().<span class="m">sort</span>((a, b) =&gt; ...)
+);
+
+<span class="c">// BIEN — se copia primero con el operador de propagación, y se ordena la copia</span>
+ordenados = <span class="m">computed</span>(() =&gt;
+  [...<span class="k">this</span>.<span class="m">productos</span>()].<span class="m">sort</span>((a, b) =&gt; ...)
+);</pre>
+
+<div class="callout warn">
+  <p><strong>Y hay algo peor que el error:</strong> la primera versión <em>parece</em> funcionar. La tabla se ve ordenada. El problema aparece después, cuando vendas algo y el orden se comporte de forma rara o la aplicación haga cosas que no esperas.</p>
+  <p>Ese es el punto del reto: <strong>hay errores que no se ven el día que los escribes</strong>. Por eso la regla no es «acuérdate de copiar cuando falle», es <strong>nunca modifiques por dentro lo que hay en una signal</strong>, aunque en ese momento no falle nada.</p>
+</div>
+
+<h2>Cómo probar que quedó bien</h2>
+<p>Con los cinco productos que trae el tablero de clase, al abrir la aplicación debe verse:</p>
+
+<table>
+  <thead><tr><th>Dato</th><th class="num">Valor esperado</th></tr></thead>
+  <tbody>
+    <tr><td>Total en dinero</td><td class="num">47 400</td></tr>
+    <tr><td>Unidades en el puesto</td><td class="num">23</td></tr>
+    <tr><td>Productos agotados (Reto 1)</td><td class="num">1</td></tr>
+    <tr><td>Aviso de inventario bajo (Reto 2)</td><td class="num">Sí aparece</td></tr>
+    <tr><td>Producto más caro (Reto 3)</td><td class="num">Ñame</td></tr>
+    <tr><td>Primera fila al ordenar (Reto 5)</td><td class="num">Mango</td></tr>
+    <tr><td>Mensaje «Jornada de venta mayorista»</td><td class="num">NO aparece</td></tr>
+  </tbody>
+</table>
+
+<div class="callout ok">
+  <p><strong>Ojo con la última fila.</strong> El total arranca en 47 400, por debajo de los 50 000, así que el mensaje de venta mayorista <strong>no se ve al abrir la aplicación</strong>. No está roto: pulsa «+10» en el mango y aparece (el total sube a 65 400). Ese es justo el caso del requisito 5 del Taller 01.</p>
+</div>
+
+<div class="callout">
+  <p><strong>Tener los resultados de antemano no es hacer trampa:</strong> es la única forma de detectar un error de lógica. Una aplicación puede compilar perfecto, abrirse sin errores y mostrar un número equivocado. Sin un resultado esperado con qué comparar, no hay manera de saberlo.</p>
+  <p>Y para probar el Reto 2 hay que forzar el otro caso: reabastece hasta que ningún producto quede por debajo de 3 y comprueba que el aviso <strong>desaparece</strong>. Un <code>@if</code> que nunca se ha visto en falso no está probado.</p>
+</div>
+
+<h2>Cómo se califica</h2>
+<table>
+  <thead><tr><th>Criterio</th><th>Qué se mira</th><th class="num">Peso</th></tr></thead>
+  <tbody>
+    <tr><td>Retos 1 y 2</td><td>Los <code>computed</code> devuelven el valor correcto y el <code>@if</code> aparece y desaparece.</td><td class="num">25%</td></tr>
+    <tr><td>Retos 3 y 4</td><td>El <code>reduce</code> funciona y el botón cambia el estado con <code>update()</code>.</td><td class="num">25%</td></tr>
+    <tr><td>Reto 5</td><td>La lista se ordena <strong>sin mutar</strong> lo que hay en la signal.</td><td class="num">30%</td></tr>
+    <tr><td>Nada se rompió</td><td>El buscador, los totales y los botones de la clase siguen funcionando.</td><td class="num">10%</td></tr>
+    <tr><td>Orden</td><td>Código indentado, nombres en español y coherentes con los de la clase.</td><td class="num">10%</td></tr>
+  </tbody>
+</table>
+
+<div class="callout warn">
+  <p><strong>Se descuenta</strong> si aparece cualquiera de estas tres: un <code>@for</code> sin <code>track</code>, una signal leída sin paréntesis, o una mutación directa (<code>push</code>, <code>sort</code> sin copiar, <code>++</code> sobre un elemento de la lista). Son los tres errores que vimos en clase con nombre propio.</p>
+</div>
+
+<h2>Antes de entregar, revisa</h2>
+<ul>
+  <li>¿Los cinco retos se ven funcionando en pantalla, no solo escritos en el código?</li>
+  <li>¿Probaste el Reto 2 en sus <strong>dos</strong> casos, con aviso y sin aviso?</li>
+  <li>¿El buscador de la clase sigue funcionando después de tus cambios?</li>
+  <li>¿Algún <code>@for</code> quedó sin <code>track</code>?</li>
+  <li>¿Queda alguna signal leída sin paréntesis?</li>
+  <li>Si entregas un enlace, ¿lo abriste en una ventana de incógnito para comprobar que se ve?</li>
+</ul>
+
+<h2>Entrega</h2>
+<ul>
+  <li><strong>Cuándo:</strong> domingo 20 de septiembre, hasta las 23:59. La misma fecha del Taller 01.</li>
+  <li><strong>Dónde:</strong> aula virtual, actividad <em>«Taller 01 + Reto S02»</em>. Lo que no está en Moodle, no se entregó.</li>
+  <li><strong>Qué se sube:</strong> el enlace a tu proyecto en línea, <em>o</em> el proyecto comprimido en <code>.zip</code> <strong>sin la carpeta <code>node_modules</code></strong>. Más un documento corto diciendo cuáles de los cinco retos lograste y en cuál te trabaste.</li>
+  <li><strong>Nombre del archivo:</strong> <code>COM30_RetoS02_TuApellido.zip</code> o <code>.pdf</code>.</li>
+  <li><strong>Si te trabas:</strong> al foro del aula, con el mensaje de error copiado completo. Si el error trae un código del tipo <code>NG5002</code>, búscalo <em>con el código incluido</em> en <code>angular.dev</code>.</li>
+</ul>
+
+<div class="callout info">
+  <p><strong>Decir «no me salió el Reto 5, me quedé en esto» vale nota.</strong> Entregar el Reto 5 copiado de otro compañero, no. En este módulo interesa mucho más saber dónde te trabaste que ver cinco puntos perfectos y todos iguales.</p>
+</div>
+
+</main>
+
+<footer>
+  <div><strong>COM30</strong> · Reto S02 · Ampliar el tablero de la plaza</div>
+  <div>IUB 2026-III · Kevin Erney De Alba Pomárico</div>
+</footer>
+
+</div>
+</body>
+</html>

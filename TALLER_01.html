@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COM30 · Taller 01 · El puesto de frutas</title>
+<style>
+:root{--navy:#1A2A4A;--navy-deep:#0F1A33;--yellow:#F4C220;--yellow-deep:#D9A800;
+--gray:#595959;--line:#E8E8EE;--bg:#F7F7FA;--white:#fff;--ok:#2D8A4E;--warn:#C44545;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Calibri','Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--navy);line-height:1.6}
+.page{max-width:900px;margin:0 auto;background:var(--white);box-shadow:0 0 30px rgba(0,0,0,.06)}
+header{background:var(--navy);color:#fff;padding:30px 44px;border-top:6px solid var(--yellow)}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:2.5px;color:var(--yellow);font-weight:800}
+h1{font-size:27px;font-weight:800;line-height:1.2;margin-top:6px}
+h1 em{color:var(--yellow);font-style:italic}
+.meta{font-size:12.5px;color:rgba(255,255,255,.75);margin-top:8px}
+.strip{background:var(--navy-deep);color:#fff;display:grid;grid-template-columns:repeat(4,1fr)}
+.strip div{padding:14px 20px;border-right:1px solid rgba(255,255,255,.1)}
+.strip div:last-child{border-right:none}
+.strip .l{font-size:10px;text-transform:uppercase;letter-spacing:1.8px;color:var(--yellow);font-weight:800}
+.strip .v{font-size:15px;font-weight:800;margin-top:3px}
+main{padding:34px 44px 44px}
+h2{font-size:19px;color:var(--navy);margin:32px 0 12px;padding-bottom:7px;border-bottom:2px solid var(--yellow)}
+h2:first-child{margin-top:0}
+h3{font-size:15.5px;color:var(--navy);margin:20px 0 7px}
+p{margin-bottom:11px;font-size:14.5px}
+ul,ol{margin:0 0 12px 22px}
+li{margin-bottom:7px;font-size:14.5px}
+code{font-family:'Consolas','Courier New',monospace;background:#EEF0F5;padding:1px 5px;border-radius:3px;font-size:13.5px;color:var(--navy-deep)}
+pre{font-family:'Consolas','Courier New',monospace;background:var(--navy-deep);color:#E8E8EE;
+padding:16px 18px;border-radius:7px;border-left:5px solid var(--yellow);overflow-x:auto;
+font-size:13px;line-height:1.55;margin:12px 0}
+pre .c{color:#8FA3B8}
+pre .k{color:var(--yellow);font-weight:700}
+pre .s{color:#9BD8A0}
+pre .t{color:#7FD4E8}
+pre .m{color:#E3A6FF;font-weight:700}
+.filetag{display:inline-block;font-family:'Consolas',monospace;font-size:12px;font-weight:700;
+background:var(--yellow);color:var(--navy);padding:3px 11px;border-radius:5px 5px 0 0;margin-top:14px}
+.filetag + pre{margin-top:0;border-radius:0 7px 7px 7px}
+.callout{background:#FFFCEC;border-left:5px solid var(--yellow);padding:14px 18px;border-radius:0 7px 7px 0;margin:16px 0}
+.callout.warn{background:#FBEAEA;border-left-color:var(--warn)}
+.callout.ok{background:#EAF5EE;border-left-color:var(--ok)}
+.callout p:last-child{margin-bottom:0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+th,td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--line)}
+thead th{background:var(--navy);color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:1.2px}
+tbody tr:nth-child(even) td{background:var(--bg)}
+.num{text-align:right;font-family:'Consolas',monospace}
+.req{background:var(--white);border:1px solid var(--line);border-left:5px solid var(--navy);
+padding:13px 17px;margin-bottom:10px;border-radius:0 6px 6px 0}
+.req .t{font-weight:800;font-size:14.5px}
+.req .d{font-size:13.5px;color:var(--gray);margin-top:3px}
+.req.r1{border-left-color:var(--ok)}
+.req.r2{border-left-color:#1A4DAA}
+.req.r3{border-left-color:var(--yellow-deep)}
+.pts{float:right;background:var(--navy);color:var(--yellow);font-size:11.5px;font-weight:800;
+padding:2px 9px;border-radius:11px;letter-spacing:.5px}
+.steps{counter-reset:st;margin:14px 0}
+.steps .st{position:relative;padding:9px 0 9px 42px;border-bottom:1px solid var(--line);font-size:14px}
+.steps .st:last-child{border-bottom:none}
+.steps .st::before{counter-increment:st;content:counter(st);position:absolute;left:0;top:8px;
+width:26px;height:26px;background:var(--navy);color:var(--yellow);border-radius:50%;
+display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+footer{background:var(--navy-deep);color:rgba(255,255,255,.75);padding:18px 44px;font-size:12px;
+display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+footer strong{color:#fff}
+@media print{body{background:#fff}.page{box-shadow:none;max-width:none}pre{border:1px solid #ccc}}
+@media(max-width:700px){.strip{grid-template-columns:1fr 1fr}main,header,footer{padding-left:20px;padding-right:20px}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <div class="eyebrow">COM30 · Programación con Frameworks para Web · IUB 2026-III</div>
+  <h1>Taller 01 · <em>El puesto de frutas</em></h1>
+  <div class="meta">RA1 · Corte 1 · Se inicia en la sesión S02 · El mismo problema, resuelto dos veces · Docente: Kevin Erney De Alba Pomárico</div>
+</header>
+
+<section class="strip">
+  <div><div class="l">Modalidad</div><div class="v">Individual</div></div>
+  <div><div class="l">Se inicia</div><div class="v">S02 · mié 16 sep</div></div>
+  <div><div class="l">Se entrega</div><div class="v">Domingo 20 sep, 23:59</div></div>
+  <div><div class="l">Dónde</div><div class="v">Aula virtual Moodle</div></div>
+</section>
+
+<main>
+
+<div class="callout ok">
+  <p><strong>Antes de empezar, lo importante:</strong> este es tu primer taller del módulo y es, a propósito, el mismo problema dos veces. La <strong>Parte A</strong> la puedes resolver con lo que ya sabías antes de entrar a COM30. La <strong>Parte B</strong> es lo nuevo. Y la <strong>Parte C</strong> —comparar las dos— es la que de verdad demuestra que entendiste para qué sirve un framework.</p>
+</div>
+
+<h2>El caso</h2>
+<p>Don Efraín tiene un puesto de frutas en el mercado. Cada mañana escribe en un cartón los precios del día y las cantidades que tiene, y al final de la jornada suma todo a mano para saber cuánto vendió y cuánto le quedó.</p>
+<p>Te pide una pantalla que muestre <strong>el inventario del día</strong> con los subtotales calculados, y que le diga de una vez el total en dinero y cuántas unidades tiene en el puesto.</p>
+<div class="callout">
+  <p><strong>Es el mismo problema del tablero de la plaza que vimos en la S01</strong>, con otro producto y dos requisitos más. Puedes apoyarte en los dos archivos de ejemplo del aula, pero <em>no copiarlos tal cual</em>: los datos son otros y los requisitos 4 y 5 no están resueltos ahí.</p>
+</div>
+
+<h2>Qué debe hacer la aplicación</h2>
+<div class="req r1"><span class="pts">Requisito 1</span><div class="t">Mostrar la tabla de frutas</div><div class="d">Una fila por fruta, con nombre, precio, cantidad y subtotal. El subtotal es precio por cantidad y se calcula, no se escribe a mano.</div></div>
+<div class="req r2"><span class="pts">Requisito 2</span><div class="t">Mostrar el total en dinero</div><div class="d">La suma de todos los subtotales.</div></div>
+<div class="req r2"><span class="pts">Requisito 3</span><div class="t">Un botón que cambie los datos</div><div class="d">Por ejemplo "vender un mango", que reste una unidad al mango. Al pulsarlo, la tabla y el total deben quedar al día.</div></div>
+<div class="req r3"><span class="pts">Requisito 4 · nuevo</span><div class="t">Mostrar el total de unidades en el puesto</div><div class="d">La suma de las cantidades, no de los precios. Es un segundo valor calculado, independiente del total en dinero.</div></div>
+<div class="req r3"><span class="pts">Requisito 5 · nuevo</span><div class="t">Un mensaje que aparece solo a veces</div><div class="d">Si el total en dinero supera los <strong>$50.000</strong>, debe aparecer el mensaje "Jornada de venta mayorista". Si no llega, no debe aparecer nada. En la Parte B esto se resuelve con <code>@if</code>.</div></div>
+
+<h2>Datos de prueba</h2>
+<p>Usa exactamente estos datos. Si con ellos no obtienes los resultados de abajo, hay un error en alguna parte.</p>
+<table>
+  <thead><tr><th>Fruta</th><th class="num">Precio</th><th class="num">Cantidad</th><th class="num">Subtotal</th></tr></thead>
+  <tbody>
+    <tr><td>Mango</td><td class="num">1800</td><td class="num">12</td><td class="num">21600</td></tr>
+    <tr><td>Guayaba</td><td class="num">1200</td><td class="num">8</td><td class="num">9600</td></tr>
+    <tr><td>Patilla</td><td class="num">6500</td><td class="num">2</td><td class="num">13000</td></tr>
+    <tr><td>Maracuyá</td><td class="num">3400</td><td class="num">5</td><td class="num">17000</td></tr>
+    <tr><td>Níspero</td><td class="num">2900</td><td class="num">4</td><td class="num">11600</td></tr>
+  </tbody>
+</table>
+<div class="callout ok">
+  <p><strong>Resultados correctos con esos datos:</strong></p>
+  <ul style="margin-bottom:0">
+    <li>Total en dinero: <strong>72800</strong></li>
+    <li>Total de unidades: <strong>31</strong></li>
+    <li>El mensaje "Jornada de venta mayorista" <strong>sí</strong> debe aparecer, porque 72800 supera los 50000</li>
+    <li>Después de pulsar cuatro veces "vender un mango": total <strong>65600</strong>, unidades <strong>27</strong>, y el mensaje sigue apareciendo</li>
+  </ul>
+</div>
+<div class="callout">
+  <p>Tener los resultados de antemano no es hacer trampa: es la <strong>única forma de detectar un error de lógica</strong>. Una aplicación puede compilar perfecto, abrirse sin errores y mostrar un número equivocado. Sin un resultado esperado con qué comparar, no hay manera de saberlo.</p>
+  <p><strong>Y para probar el requisito 5 hay que forzar el otro caso:</strong> baja las cantidades hasta que el total quede por debajo de 50000 y comprueba que el mensaje <em>desaparece</em>. Un <code>@if</code> que nunca se ha visto en falso no está probado.</p>
+</div>
+
+<h2>Parte A · La versión tradicional</h2>
+<p>Un solo archivo <code>.html</code> con su HTML, su CSS y su JavaScript, manipulando el DOM a mano. Sin framework, sin librerías.</p>
+<div class="steps">
+  <div class="st">Crea el archivo <code>frutas.html</code>. Se abre con doble clic: no necesita servidor ni Node.</div>
+  <div class="st">Escribe la tabla con el <code>&lt;tbody&gt;</code> <strong>vacío</strong> y un <code>id</code>, más los huecos para los dos totales y para el mensaje.</div>
+  <div class="st">Declara el arreglo de frutas y escribe la función que pinta la tabla y actualiza los totales.</div>
+  <div class="st">Engancha el botón con <code>addEventListener</code> y <strong>acuérdate de repintar</strong> después de cambiar el dato.</div>
+  <div class="st">Para el requisito 5, muestra u oculta el mensaje a mano según el total.</div>
+</div>
+<div class="callout warn">
+  <p><strong>Ese último paso es el punto del taller.</strong> En la versión tradicional, mostrar y ocultar el mensaje es responsabilidad tuya en cada repintado. Fíjate en cuántas líneas te cuesta, porque en la Parte B te va a costar una.</p>
+</div>
+
+<h2>Parte B · La versión Angular</h2>
+<p>Un proyecto de Angular con toda la lógica en el componente raíz. <strong>Se hace en línea, sin instalar nada:</strong> los equipos de la sala no tienen Node ni la Angular CLI, y por ahora no se pueden instalar.</p>
+<div class="callout">
+  <p><strong>Dónde trabajar.</strong> Entra al entorno en línea que usamos en la S02 — el enlace exacto está publicado en el <strong>foro del aula</strong>. Elige una plantilla de Angular, espera a que arranque, y listo: trae Node, la CLI y el editor dentro del navegador. Funciona igual desde la casa, desde un café internet o desde cualquier equipo prestado.</p>
+  <p>Si consigues un computador donde sí puedas instalar, el equivalente es <code>ng new frutas --style=css --ssr=false</code>, luego <code>cd frutas</code> y <code>ng serve</code>. El código que escribas es exactamente el mismo.</p>
+</div>
+<div class="steps">
+  <div class="st">Abre el entorno en línea y crea un proyecto de Angular. La primera vez tarda en arrancar: está instalando dentro del navegador.</div>
+  <div class="st">Busca el archivo del componente raíz — el que tiene <code>@Component</code> adentro. Según la plantilla puede llamarse <code>main.ts</code> o <code>app.ts</code>: el nombre cambia, el decorador no.</div>
+  <div class="st">Reemplaza su contenido por tu solución. La vista previa se actualiza sola mientras escribes.</div>
+  <div class="st">Los datos van en una <code>signal</code>. Los dos totales, en sendos <code>computed</code>.</div>
+  <div class="st">La tabla se arma con <code>@for</code> y su <code>track</code>. El mensaje del requisito 5, con <code>@if</code>.</div>
+  <div class="st">El botón cambia el estado con <code>.update()</code>, nunca modificando el arreglo por dentro.</div>
+</div>
+
+<h3>Por dónde empezar el código</h3>
+<span class="filetag">src/app/app.ts</span>
+<pre><span class="k">import</span> { Component, computed, signal } <span class="k">from</span> <span class="s">'@angular/core'</span>;
+
+<span class="k">interface</span> <span class="t">Fruta</span> {
+  nombre: <span class="t">string</span>;
+  precio: <span class="t">number</span>;
+  cantidad: <span class="t">number</span>;
+}
+
+<span class="m">@Component</span>({
+  selector: <span class="s">'app-root'</span>,
+  template: <span class="s">`</span>
+    <span class="s">&lt;h1&gt;Puesto de frutas de don Efraín&lt;/h1&gt;</span>
+
+    <span class="s">&lt;table&gt;</span>
+      <span class="s">&lt;!-- 1. el thead va aquí, escrito a mano --&gt;</span>
+      <span class="s">&lt;tbody&gt;</span>
+        <span class="c">&lt;!-- 2. ¿qué va aquí? Un @for con su track --&gt;</span>
+      <span class="s">&lt;/tbody&gt;</span>
+    <span class="s">&lt;/table&gt;</span>
+
+    <span class="s">&lt;p&gt;Total en dinero: {{ totalDinero() }}&lt;/p&gt;</span>
+    <span class="c">&lt;!-- 3. y el total de unidades --&gt;</span>
+
+    <span class="c">&lt;!-- 4. el mensaje del requisito 5, con @if --&gt;</span>
+
+    <span class="s">&lt;button (click)="venderMango()"&gt;Vender un mango&lt;/button&gt;</span>
+  <span class="s">`</span>
+})
+<span class="k">export class</span> <span class="t">App</span> {
+
+  frutas = <span class="m">signal</span>&lt;<span class="t">Fruta</span>[]&gt;([
+    { nombre: <span class="s">'Mango'</span>,   precio: <span class="s">1800</span>, cantidad: <span class="s">12</span> },
+    { nombre: <span class="s">'Guayaba'</span>, precio: <span class="s">1200</span>, cantidad: <span class="s">8</span>  },
+    <span class="c">// ... faltan tres</span>
+  ]);
+
+  totalDinero = <span class="m">computed</span>(() =&gt;
+    <span class="k">this</span>.<span class="m">frutas</span>().<span class="m">reduce</span>((suma, f) =&gt; suma + f.precio * f.cantidad, <span class="s">0</span>)
+  );
+
+  <span class="c">// totalUnidades = computed(() =&gt; ...);   // requisito 4</span>
+
+  <span class="m">venderMango</span>() {
+    <span class="c">// requisito 3: restar una unidad al mango, con .update()</span>
+    <span class="c">// pista: this.frutas.update(lista =&gt; lista.map(...))</span>
+  }
+}</pre>
+<div class="callout warn">
+  <p><strong>El error que más se comete aquí.</strong> Para cambiar la cantidad <em>no</em> sirve <code>this.frutas()[0].cantidad--</code>: eso modifica el arreglo por dentro y la signal no se entera, así que la pantalla no cambia. Hay que <strong>reemplazar el valor</strong> con <code>.update()</code>, devolviendo un arreglo nuevo. Está explicado con detalle en la sección 10 de la guía de estudio S01.</p>
+</div>
+
+<h2>Parte C · La comparación</h2>
+<p>Media página, en tus palabras. No es relleno: es el criterio CE1 del módulo y vale más que la Parte A.</p>
+<ol>
+  <li><strong>Qué desapareció.</strong> Nombra al menos <strong>cuatro cosas</strong> que tuviste que escribir en la Parte A y que en la Parte B no existen. Para cada una, di qué las reemplazó.</li>
+  <li><strong>El requisito 5, lado a lado.</strong> Cuántas líneas te costó mostrar y ocultar el mensaje en cada versión, y por qué la diferencia.</li>
+  <li><strong>El bug que ya no se puede escribir.</strong> Explica con tus palabras por qué en la Parte B es imposible el error de "cambié el dato pero la pantalla no se actualizó".</li>
+  <li><strong>Lo que costó más.</strong> Honestamente: qué parte te tomó más tiempo, y si fue por la lógica o por la sintaxis. Esto no se califica por la respuesta, sino por haberla pensado.</li>
+</ol>
+
+<h2>Parte D · La entrega</h2>
+<p>Todo va al <strong>aula virtual</strong>, en la misma entrega. Como todavía no tenemos GitHub, se entrega así:</p>
+<div class="steps">
+  <div class="st"><strong>La Parte A</strong> — el archivo <code>frutas.html</code>, tal cual. Es un archivo de texto: se adjunta y ya.</div>
+  <div class="st"><strong>La Parte B</strong> — el <strong>enlace</strong> a tu proyecto en el entorno en línea (si creaste cuenta), <em>o</em> el proyecto descargado como <code>.zip</code>. Cualquiera de las dos sirve.</div>
+  <div class="st"><strong>La Parte C</strong> — la comparación escrita, en un documento aparte o en el cuadro de texto de la entrega.</div>
+</div>
+<div class="callout warn">
+  <p><strong>Si entregas el enlace, compruébalo antes.</strong> Ábrelo en una ventana de incógnito: si ahí no se ve, tampoco lo voy a ver yo, y el proyecto cuenta como no entregado. En la duda, manda el <code>.zip</code>.</p>
+  <p><strong>Si entregas el <code>.zip</code></strong> y por algún motivo trae una carpeta <code>node_modules</code>, bórrala antes: son miles de archivos que se reconstruyen solos y solo hacen que la subida falle.</p>
+</div>
+<div class="callout">
+  <p><strong>Cuando tengamos GitHub</strong> —la cuenta es tarea de esta semana— la entrega pasará a ser el enlace del repositorio, y este taller se migra allí. Por ahora, aula virtual.</p>
+</div>
+
+<h2>Cómo se califica</h2>
+<table>
+  <thead><tr><th>Criterio</th><th>Qué se mira</th><th class="num">Peso</th></tr></thead>
+  <tbody>
+    <tr><td>Parte A · tradicional</td><td>La página funciona, muestra los cinco requisitos y da los resultados correctos.</td><td class="num">25%</td></tr>
+    <tr><td>Parte B · Angular</td><td>Usa <code>signal</code>, <code>computed</code>, <code>@for</code> con <code>track</code> y <code>@if</code>. Compila y corre.</td><td class="num">35%</td></tr>
+    <tr><td>Parte C · comparación</td><td>Los cuatro puntos, con argumentos propios y no copiados de la guía.</td><td class="num">30%</td></tr>
+    <tr><td>Orden y puntualidad</td><td>Entrega a tiempo, archivos bien nombrados, código indentado y legible.</td><td class="num">10%</td></tr>
+  </tbody>
+</table>
+<div class="callout warn">
+  <p><strong>Si la Parte B no compila, entrega igual.</strong> La Parte A y la comparación ya suman el 55%. Explica en el documento en qué te trabaste y copia el mensaje de error completo: eso se acompaña y no se penaliza.</p>
+  <p>Al revés no funciona: un taller <em>solo</em> con la Parte B, sin la tradicional ni la comparación, obtiene máximo el 35%. La gracia del taller es el contraste.</p>
+</div>
+
+<h2>Si te trabas</h2>
+<table>
+  <thead><tr><th>Lo que ves</th><th>Qué suele ser</th></tr></thead>
+  <tbody>
+    <tr><td>La pantalla muestra algo raro donde debía ir un número</td><td>Se leyó la signal sin paréntesis: <code>{{ frutas }}</code> en vez de <code>{{ frutas() }}</code>.</td></tr>
+    <tr><td><code>NG5002: @for loop must have a "track"</code></td><td>Falta el <code>track</code> en el <code>@for</code>. No es opcional.</td></tr>
+    <tr><td>El botón no hace nada</td><td>Se escribió <code>(click)="venderMango"</code> sin los paréntesis del final. Eso nombra la función, no la llama.</td></tr>
+    <tr><td>Los datos cambian en la consola pero la pantalla no</td><td>Se modificó el arreglo por dentro. Hay que usar <code>.update()</code> devolviendo un arreglo nuevo.</td></tr>
+    <tr><td>El total sale <code>NaN</code></td><td>Algún precio o cantidad quedó escrito como texto entre comillas, o falta el valor inicial <code>0</code> en el <code>reduce</code>.</td></tr>
+    <tr><td>El mensaje del requisito 5 nunca aparece</td><td>La condición del <code>@if</code> compara contra la signal sin llamarla, o el operador está al revés.</td></tr>
+    <tr><td>El entorno en línea no arranca o se queda cargando</td><td>Puede ser la red desde donde estés. Prueba con otro navegador o desde otra conexión; si sigue, avísame en el foro <em>antes</em> del domingo — no el domingo en la noche.</td></tr>
+    <tr><td>Cerré la pestaña y perdí el proyecto</td><td>Pasa. Por eso hay que guardar apenas funcione algo: cuenta en el entorno, o descargar el <code>.zip</code>. La Parte A, en cambio, es un archivo tuyo y no se pierde.</td></tr>
+    <tr><td>En la Parte A, el total no cambia al pulsar el botón</td><td>Falta la llamada a la función que repinta. <em>Ese es justamente el punto del taller:</em> anótalo para la Parte C.</td></tr>
+  </tbody>
+</table>
+<div class="callout">
+  <p>Si después de intentarlo sigues trabado, escribe en el <strong>foro del aula virtual</strong> con el mensaje de error completo copiado, no en un mensaje privado: tu duda casi seguro es la de otros cinco. Y si el error trae un código del tipo <code>NG5002</code>, búscalo en internet <em>con el código incluido</em>: es la diferencia entre encontrar la respuesta exacta y leer veinte foros de 2019.</p>
+</div>
+
+<h2>Antes de entregar, revisa</h2>
+<ul>
+  <li>¿El total en dinero da <strong>72800</strong> y el de unidades <strong>31</strong>, en las <em>dos</em> versiones?</li>
+  <li>¿Probaste que el mensaje del requisito 5 <strong>desaparece</strong> cuando el total baja de 50000?</li>
+  <li>¿El <code>@for</code> tiene su <code>track</code>?</li>
+  <li>¿Los subtotales se calculan, en vez de estar escritos a mano en el HTML?</li>
+  <li>¿El botón actualiza la tabla y los dos totales al mismo tiempo?</li>
+  <li>¿Están las cuatro partes, y no solo el código?</li>
+  <li>Si entregas un enlace, ¿lo abriste en una ventana de incógnito para comprobar que se ve?</li>
+  <li>¿Guardaste la Parte B <strong>antes</strong> de cerrar la pestaña?</li>
+</ul>
+
+<h2>Entrega</h2>
+<ul>
+  <li><strong>Cuándo:</strong> domingo 20 de septiembre, hasta las 23:59.</li>
+  <li><strong>Dónde:</strong> aula virtual Moodle, actividad "Taller 01 · El puesto de frutas". Lo que no está en Moodle, no se entregó.</li>
+  <li><strong>Qué se sube:</strong> un documento (Word o PDF) con la Parte C <strong>y el enlace a tu proyecto en línea</strong>, más el archivo <code>frutas.html</code> de la Parte A. Si prefieres no mandar enlace, adjunta el proyecto de la Parte B como <code>.zip</code>.</li>
+  <li><strong>Nombre de los archivos:</strong> <code>COM30_Taller01_TuApellido.pdf</code> y <code>COM30_Taller01_TuApellido.html</code>.</li>
+  <li><strong>Material de apoyo, todo en el aula:</strong> la guía de estudio S01, <code>COM30_S01_ejemplo_tradicional.html</code> y <code>COM30_S01_ejemplo_angular.ts</code>. Los dos ejemplos resuelven el caso del tablero de la plaza y están comentados línea por línea: son exactamente el punto de partida que necesitas.</li>
+</ul>
+
+</main>
+
+<footer>
+  <div><strong>COM30</strong> · Taller 01 · Se inicia en la sesión S02 · 2026-III</div>
+  <div>Kevin Erney De Alba Pomárico · Institución Universitaria de Barranquilla</div>
+</footer>
+
+</div>
+</body>
+</html>

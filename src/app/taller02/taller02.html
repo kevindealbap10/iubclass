@@ -1,0 +1,67 @@
+<section class="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+  <h1 class="text-2xl font-bold text-slate-900">Inventario · {{ hoy | date: 'fullDate' }}</h1>
+  <p class="mt-1 text-sm text-slate-500">Taller 02 · filtros, estados y pipe propio</p>
+
+  <div class="mt-4 flex flex-wrap gap-2">
+    @for (categoria of categorias; track categoria) {
+      <button
+        type="button"
+        class="filtro"
+        [class.activo]="filtro() === categoria"
+        (click)="filtro.set(categoria)"
+      >
+        {{ categoria }}
+      </button>
+    }
+  </div>
+
+  <div class="mt-4 overflow-x-auto rounded-xl border border-slate-200">
+    <table class="w-full text-left text-sm">
+      <thead class="bg-slate-900 text-xs uppercase tracking-wider text-white">
+        <tr>
+          <th class="px-4 py-3">Producto</th>
+          <th class="px-4 py-3 text-right">Precio</th>
+          <th class="px-4 py-3 text-right">Existencias</th>
+          <th class="px-4 py-3">Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (p of filas(); track p.nombre) {
+          <tr class="border-t border-slate-100" [class.agotado]="p.estado === 'agotado'">
+            <td class="px-4 py-3 font-semibold">{{ p.nombre }}</td>
+            <td class="px-4 py-3 text-right">
+              {{ p.precio | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}
+            </td>
+            <td class="px-4 py-3 text-right">{{ p.cantidad | unidades }}</td>
+            <td class="px-4 py-3">
+              @switch (p.estado) {
+                @case ('agotado') {
+                  <span class="etiqueta etiqueta-agotado">Agotado</span>
+                }
+                @case ('bajo') {
+                  <span class="etiqueta etiqueta-bajo">Bajo</span>
+                }
+                @case ('disponible') {
+                  <span class="etiqueta etiqueta-disponible">Disponible</span>
+                }
+                @default {
+                  <span class="etiqueta etiqueta-disponible">—</span>
+                }
+              }
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="4" class="px-4 py-8 text-center text-slate-400">
+              No hay productos en esta categoría
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <p class="mt-4 text-xs text-slate-400">
+    Mostrando {{ filas().length }} de {{ productos().length }} productos.
+  </p>
+</section>
