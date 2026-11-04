@@ -18,6 +18,8 @@ export const routes: Routes = [
   { path: 's05', component: S05 }, // ejemplos de la sesión S05
   { path: 's06', component: S06 }, // ejemplos de la sesión S06
   { path: 's07', component: S07 }, // ejemplos de la sesión S07
+  // ejemplos de la sesión S08; carga diferida para no pasar el presupuesto del paquete inicial
+  { path: 's08', loadComponent: () => import('./s08/s08').then((m) => m.S08) },
   { path: 'acerca', component: Acerca },
   { path: '**', redirectTo: 'tablero' }, // cualquier otra URL vuelve al tablero
 ];
