@@ -43,6 +43,8 @@ import { filter, map } from 'rxjs';
       <a routerLink="resumen" routerLinkActive="activo" class="opcion">Resumen (diferida)</a>
       <a routerLink="productos/99" routerLinkActive="activo" class="opcion">Producto 99</a>
       <a routerLink="ofertas" routerLinkActive="activo" class="opcion">Ofertas (no existe)</a>
+      <!-- Ejercicio de la diapositiva 13: con href en lugar de routerLink, la página se recarga -->
+      <a routerLink="ayuda" routerLinkActive="activo" class="opcion">Ayuda</a>
       <a [routerLink]="['/s09', { outlets: { panel: ['ficha', 8] } }]" queryParamsHandling="preserve"
          class="opcion">Panel: ficha 8</a>
     </nav>

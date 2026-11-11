@@ -15,6 +15,7 @@ import { PanelFicha } from './panel/panel-ficha';
 //    /s09/productos           -> ListaProductos      (filtro con ?categoria=)
 //    /s09/productos/:id       -> DetalleProducto     (:id llega a un input())
 //    /s09/resumen             -> Resumen             (loadComponent: carga diferida)
+//    /s09/ayuda               -> ListaProductos      (ejercicio de la diapositiva 13)
 //    /s09/cualquier-otra-cosa -> NoEncontrada        (comodín **, siempre al final)
 //
 //  Ruta SECUNDARIA (outlet con nombre «panel»), se muestra junto a la principal:
@@ -41,6 +42,9 @@ export const S09_ROUTES: Routes = [
       },
       // ruta secundaria: va al <router-outlet name="panel" />, no al principal
       { path: 'ficha/:id', component: PanelFicha, outlet: 'panel' },
+      // Ejercicio de la diapositiva 13: debajo de '**' esta ruta nunca se alcanza
+      // (/s09/ayuda mostraría la 404); encima, muestra el listado.
+      { path: 'ayuda', component: NoEncontrada, title: 'S09 · Ayuda' },
       { path: '**', component: NoEncontrada, title: 'S09 · No encontrada' },
     ],
   },

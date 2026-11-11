@@ -38,6 +38,20 @@
 | `/s09/(resumen//panel:ficha/8)` | cambia la vista principal; el panel sigue abierto |
 | `/s09/(productos//panel:ficha/99)` | el panel informa que el producto 99 no existe |
 
+## Ejercicio de la diapositiva 13 · una ruta nueva
+
+El repositorio queda con el resultado final (pasos 2 y 3). Para repetir el ejercicio, siga los cuatro pasos en
+`src/app/s09/s09.routes.ts` y `src/app/s09/s09.ts`.
+
+| Paso | Qué hacer | Qué debe observarse | Qué error previene |
+|---|---|---|---|
+| 1 | Mueva `{ path: 'ayuda', component: ListaProductos }` **debajo** de `{ path: '**', ... }` y abra `/s09/ayuda` | La vista 404: «La dirección /s09/ayuda no existe» | Ver que el comodín captura todo lo que está debajo |
+| 2 | Devuelva la línea **encima** de `'**'` | `/s09/ayuda` muestra el listado de 14 productos | Rutas inalcanzables por el orden |
+| 3 | En el `<nav>` de `s09.ts`: `<a routerLink="ayuda" routerLinkActive="activo" class="opcion">Ayuda</a>` | Al pulsar «Ayuda», la opción se pinta de azul | Enlaces que no marcan la vista actual |
+| 4 | Cambie ese enlace por `<a href="/s09/ayuda" class="opcion">Ayuda</a>` y púlselo | La página parpadea: se recargó completa | Usar `href` en enlaces internos |
+
+Al terminar, deshaga el paso 4 (vuelva a `routerLink`).
+
 ## Qué comprobar en el navegador
 
 - Con el filtro Granos activo, **F5** conserva el filtro y **Atrás** lo deshace.
