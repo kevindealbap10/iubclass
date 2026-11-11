@@ -20,6 +20,8 @@ export const routes: Routes = [
   { path: 's07', component: S07 }, // ejemplos de la sesión S07
   // ejemplos de la sesión S08; carga diferida para no pasar el presupuesto del paquete inicial
   { path: 's08', loadComponent: () => import('./s08/s08').then((m) => m.S08) },
+  // ejemplos de la sesión S09; loadChildren trae un mapa de rutas hijas completo
+  { path: 's09', loadChildren: () => import('./s09/s09.routes').then((m) => m.S09_ROUTES) },
   { path: 'acerca', component: Acerca },
   { path: '**', redirectTo: 'tablero' }, // cualquier otra URL vuelve al tablero
 ];
