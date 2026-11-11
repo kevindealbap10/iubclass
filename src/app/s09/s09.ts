@@ -12,6 +12,7 @@ import { filter, map } from 'rxjs';
 //    3. La «barra de dirección»: la URL que el enrutador acaba de resolver.
 //       Se lee de router.events (un observable, S08) con toSignal.
 //    4. <router-outlet />: el hueco donde el enrutador pone la vista hija.
+//    5. <router-outlet name="panel" />: ruta secundaria (diapositivas 39 y 40).
 //
 //  Qué observar
 //    - Al pulsar «Productos» y luego un producto, la opción «Productos» sigue
@@ -42,23 +43,33 @@ import { filter, map } from 'rxjs';
       <a routerLink="resumen" routerLinkActive="activo" class="opcion">Resumen (diferida)</a>
       <a routerLink="productos/99" routerLinkActive="activo" class="opcion">Producto 99</a>
       <a routerLink="ofertas" routerLinkActive="activo" class="opcion">Ofertas (no existe)</a>
+      <a [routerLink]="['/s09', { outlets: { panel: ['ficha', 8] } }]" queryParamsHandling="preserve"
+         class="opcion">Panel: ficha 8</a>
     </nav>
 
     <!-- 4. Aquí el enrutador pone la vista hija -->
-    <section class="mt-4 rounded-xl border-2 border-dashed border-amber-400 bg-white p-5">
-      <p class="mb-3 text-[11px] font-bold uppercase tracking-widest text-amber-600">router-outlet de /s09</p>
-      <router-outlet />
-    </section>
+    <!-- 5. Ruta secundaria: dos outlets a la vez, el principal y el llamado «panel» -->
+    <div class="mt-4 grid gap-4" [class.con-panel]="panelAbierto()">
+      <section class="rounded-xl border-2 border-dashed border-amber-400 bg-white p-5">
+        <p class="mb-3 text-[11px] font-bold uppercase tracking-widest text-amber-600">router-outlet de /s09</p>
+        <router-outlet />
+      </section>
+      <div><router-outlet name="panel" /></div>
+    </div>
   `,
   styles: `
     .opcion { border-radius: 9999px; border: 1px solid #cbd5e1; background: #fff; padding: 0.35rem 0.9rem;
       font-size: 0.85rem; font-weight: 600; color: #334155; }
     .opcion:hover { border-color: #1e3a8a; }
     .activo { background: #1e3a8a; border-color: #1e3a8a; color: #fff; }
+    .con-panel { grid-template-columns: 2fr 1fr; }
   `,
 })
 export class S09 {
   private readonly router = inject(Router);
+
+  /** true si la dirección trae la ruta secundaria: /s09/(productos//panel:ficha/8) */
+  readonly panelAbierto = () => this.url().includes('panel:');
 
   readonly url = toSignal(
     this.router.events.pipe(

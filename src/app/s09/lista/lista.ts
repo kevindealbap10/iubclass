@@ -47,6 +47,9 @@ import { INVENTARIO } from '../../s08/inventario';
             <b class="block text-slate-900">{{ p.nombre }}</b>
             <span class="text-xs text-slate-500">{{ p.precio | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</span>
           </a>
+          <!-- Ejemplo 5 · abre la ficha en el outlet «panel» sin salir del listado -->
+          <a [routerLink]="['/s09', { outlets: { panel: ['ficha', p.id] } }]" queryParamsHandling="preserve"
+             class="mt-1 block text-xs font-semibold text-violet-700 hover:underline">Vista rápida</a>
         </li>
       } @empty {
         <li class="col-span-full rounded-lg bg-amber-50 p-3 text-amber-800">

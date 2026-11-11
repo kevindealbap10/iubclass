@@ -20,6 +20,7 @@
 | `src/app/s09/lista/lista.ts` | `?categoria=` en `input()`, `queryParams` y enlaces relativos | 22, 23 |
 | `src/app/s09/resumen/resumen.ts` | vista con carga diferida | 29 |
 | `src/app/s09/no-encontrada/no-encontrada.ts` | vista 404 | 30 |
+| `src/app/s09/panel/panel-ficha.ts` | ruta secundaria: `outlet: 'panel'` y `<router-outlet name="panel" />` | 39, 40 |
 | `src/app/app.routes.server.ts` | `s09/**` con `RenderMode.Client` (rutas con `:id` y prerender) | 31 |
 
 ## Resultados esperados
@@ -33,11 +34,15 @@
 | `/s09/productos/99` y `/s09/productos/abc` | «No existe un producto con el código …» (no es la 404) |
 | `/s09/resumen` | Frutas $ 89.600 · Verduras $ 63.100 · Granos $ 169.300 · Total $ 322.000 |
 | `/s09/ofertas` | vista 404 con la dirección pedida |
+| `/s09/(productos//panel:ficha/8)` | listado y, al lado, la ficha de Banano en el panel |
+| `/s09/(resumen//panel:ficha/8)` | cambia la vista principal; el panel sigue abierto |
+| `/s09/(productos//panel:ficha/99)` | el panel informa que el producto 99 no existe |
 
 ## Qué comprobar en el navegador
 
 - Con el filtro Granos activo, **F5** conserva el filtro y **Atrás** lo deshace.
 - En `/s09/productos/8`, la opción «Productos» del menú sigue resaltada; «Inicio» no, porque usa `{ exact: true }`.
+- «Vista rápida» abre la ficha en el panel sin salir del listado; «Cerrar panel» quita solo el panel (`{ outlets: { panel: null } }`).
 - F12 > Red, filtro JS: el archivo de `resumen` se descarga la primera vez que se abre la vista, y no otra vez.
 
 La guía del Taller 08 está en `GUIA_TALLER_08.md`.
