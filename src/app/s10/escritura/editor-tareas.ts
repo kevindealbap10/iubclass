@@ -51,7 +51,7 @@ interface Registro { verbo: string; url: string; resultado: string; ok: boolean;
     </ul>
 
     <h4 class="mt-4 text-sm font-bold uppercase tracking-wider text-slate-500">Bitácora de peticiones</h4>
-    <ol class="mt-1 font-mono text-xs">
+    <ol class="mt-1 font-mono text-xs leading-8">
       @for (r of bitacora(); track $index) {
         <li [class.text-red-700]="!r.ok">{{ r.verbo }} {{ r.url }} → {{ r.resultado }}</li>
       }
