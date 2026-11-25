@@ -42,3 +42,6 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Base de datos del servidor de la clase (se crea desde api/semilla.json)
+api/datos.json

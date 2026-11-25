@@ -37,3 +37,30 @@ En StackBlitz: `stackblitz.com/github/USUARIO/iubclass` y `/s10` en la vista pre
 | Editor: eliminar la tarea 5 | DELETE `/todos/5` → 200 · isDeleted true |
 | Editor: marcar la tarea 255 | PATCH `/todos/255` → 404: la API simula las escrituras y no guardó el alta |
 | `/s10/buscar?id=9999` | «No existe el registro solicitado (Todo with id '9999' not found).» |
+
+
+## Laboratorio con servidor propio: los datos sí se guardan
+
+dummyjson responde a las escrituras pero no las guarda. El repositorio trae un servidor propio,
+`api/servidor.mjs`, escrito con Node y sin dependencias: atiende las mismas rutas de dummyjson
+(`/todos` y `/products`, incluida `/products/category/groceries` del Taller 09) y guarda cada
+cambio en la base de datos en archivo `api/datos.json`.
+
+| Paso | Qué hacer | Qué debe observarse |
+|---|---|---|
+| 1 | Terminal 1: `npm start` (como siempre) | la aplicación en el puerto de siempre |
+| 2 | Terminal 2: `npm run api` | `Servidor de la clase en http://localhost:3000` |
+| 3 | En `/s10`, pulse «servidor propio · guarda» | las peticiones van a `/api/todos` |
+| 4 | Editor: agregue una tarea y márquela | POST `/api/todos/add` → 201 y PATCH `/api/todos/255` → 200 |
+| 5 | Recargue y abra `/s10/buscar?id=255` | la tarea sigue ahí, marcada |
+| 6 | `npm run api -- --reiniciar` | vuelve a los 254 registros originales |
+
+En StackBlitz se abre una segunda terminal con el botón «+» del panel de terminales y se ejecuta
+`npm run api`. Angular no llama a `localhost:3000` directamente: `ng serve` redirige `/api` al
+servidor (`proxy.conf.json`), por eso funciona igual en el equipo de la sala y en StackBlitz.
+
+Error frecuente: con «servidor propio» activo y sin `npm run api`, la lectura muestra «No hay
+conexión con el servidor» o un 504 del proxy. Se corrige arrancando el servidor en la terminal 2.
+
+El mismo servidor sirve para el Taller 09: con la base `/api` en lugar de `https://dummyjson.com`,
+el PATCH al producto recién creado responde 200 en vez de 404.

@@ -13,3 +13,10 @@ trabaja con productos (`/products`, categoría groceries) y criterios distintos 
 | 6 | Mensajes de error | `mensajeDe()` | Los textos son suyos y se justifican en la pregunta A3 | Sin conexión, la aplicación informa y no se bloquea |
 
 Commit de avance: «T09: avance» con los pasos 1 y 2, hasta el miércoles 25 de noviembre de 2026, 23:59.
+
+
+## Opcional: probar contra el servidor propio de la clase
+
+Después de terminar contra dummyjson, puede repetir C8 contra el servidor del repositorio de la
+clase (`npm run api`, rutas idénticas bajo `/api`). Ahí el producto creado sí queda guardado: el
+PATCH que en dummyjson da 404 responde 200. Esa diferencia sirve como evidencia para la pregunta A1.

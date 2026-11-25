@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { API_TAREAS } from './tareas.service';
+import { OrigenApi } from './origen-api';
 
 // =============================================================================
 //  S10 · Ruta padre · /s10 · HttpClient: conexión con el servidor
@@ -17,9 +17,23 @@ import { API_TAREAS } from './tareas.service';
   imports: [RouterLink, RouterLinkActive, RouterOutlet],
   template: `
     <h2 class="text-2xl font-bold text-slate-900">Sesión S10 · HttpClient: conexión con el servidor</h2>
-    <p class="mt-1 text-sm text-slate-500">
-      API pública: <span class="font-mono">{{ api }}</span>. Abra F12 &gt; Red para ver cada petición.
-    </p>
+    <div class="mt-2 flex flex-wrap items-center gap-2 text-sm text-slate-600">
+      <span class="font-semibold">Origen de los datos:</span>
+      <button type="button" class="opcion" [class.activo]="o.origen() === 'simulado'" (click)="o.usar('simulado')">
+        dummyjson · simulado
+      </button>
+      <button type="button" class="opcion" [class.activo]="o.origen() === 'propio'" (click)="o.usar('propio')">
+        servidor propio · guarda
+      </button>
+      <span class="font-mono text-xs text-slate-500">{{ o.base() }}/todos</span>
+    </div>
+    @if (o.origen() === 'propio') {
+      <p class="mt-1 text-xs text-slate-500">
+        Requiere <span class="font-mono">npm run api</span> en otra terminal. Si no está corriendo, la lectura muestra el
+        error de conexión del bloque 4.
+      </p>
+    }
+    <p class="mt-1 text-sm text-slate-500">Abra F12 &gt; Red para ver cada petición.</p>
     <nav class="mt-4 flex flex-wrap gap-2">
       <a routerLink="tareas" routerLinkActive="activo" class="opcion">1 · Lectura</a>
       <a routerLink="editor" routerLinkActive="activo" class="opcion">2 · Escritura</a>
@@ -36,5 +50,5 @@ import { API_TAREAS } from './tareas.service';
   `,
 })
 export class S10 {
-  readonly api = API_TAREAS;
+  protected readonly o = inject(OrigenApi);
 }

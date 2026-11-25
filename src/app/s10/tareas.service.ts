@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams, httpResource } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { NuevaTarea, PaginaTareas, Tarea } from './tarea';
+import { OrigenApi } from './origen-api';
 
 // =============================================================================
 //  S10 · El servicio de acceso a datos · Diapositivas 10 a 29
@@ -22,16 +23,22 @@ import { NuevaTarea, PaginaTareas, Tarea } from './tarea';
 //      local con lo que devuelve la API (diapositiva 23).
 // =============================================================================
 
-export const API_TAREAS = 'https://dummyjson.com/todos';
+/** Ruta de las tareas dentro del origen elegido (dummyjson o servidor propio). */
+export const RUTA_TAREAS = '/todos';
 
 @Injectable({ providedIn: 'root' })
 export class TareasService {
   private readonly http = inject(HttpClient);
+  private readonly origen = inject(OrigenApi);
+  /** https://dummyjson.com/todos o /api/todos, según el selector de la vista S10. */
+  private url(): string {
+    return this.origen.base() + RUTA_TAREAS;
+  }
 
   // 1. Lectura clásica: un Observable que hace la petición al suscribirse.
   pagina(limit: number, skip: number): Observable<PaginaTareas> {
     const params = new HttpParams().set('limit', limit).set('skip', skip);
-    return this.http.get<PaginaTareas>(API_TAREAS, { params });
+    return this.http.get<PaginaTareas>(this.url(), { params });
   }
 
   // 2. Lectura con httpResource: se vuelve a pedir sola cuando cambia la signal
@@ -39,13 +46,13 @@ export class TareasService {
   //    (inicializador de un campo del componente).
   paginaRecurso(pagina: () => number, tamano: number) {
     return httpResource<PaginaTareas>(() => ({
-      url: API_TAREAS,
+      url: this.url(), // al cambiar el origen, la lectura se repite sola
       params: { limit: tamano, skip: (pagina() - 1) * tamano },
     }));
   }
 
   porId(id: number): Observable<Tarea> {
-    return this.http.get<Tarea>(`${API_TAREAS}/${id}`).pipe(
+    return this.http.get<Tarea>(`${this.url()}/${id}`).pipe(
       // 4. El componente recibe un Error con texto legible, no el objeto HTTP.
       catchError((err: HttpErrorResponse) => throwError(() => new Error(mensajeDe(err)))),
     );
@@ -53,20 +60,20 @@ export class TareasService {
 
   // 3. Escrituras. Cada una devuelve lo que responde el servidor.
   crear(tarea: NuevaTarea): Observable<Tarea> {
-    return this.http.post<Tarea>(`${API_TAREAS}/add`, tarea); // 201 Created
+    return this.http.post<Tarea>(`${this.url()}/add`, tarea); // 201 Created
   }
 
   marcar(id: number, completed: boolean): Observable<Tarea> {
-    return this.http.patch<Tarea>(`${API_TAREAS}/${id}`, { completed }); // cambia un campo
+    return this.http.patch<Tarea>(`${this.url()}/${id}`, { completed }); // cambia un campo
   }
 
   reemplazar(tarea: Tarea): Observable<Tarea> {
     const { id, ...resto } = tarea;
-    return this.http.put<Tarea>(`${API_TAREAS}/${id}`, resto); // envía el registro completo
+    return this.http.put<Tarea>(`${this.url()}/${id}`, resto); // envía el registro completo
   }
 
   eliminar(id: number): Observable<Tarea & { isDeleted: boolean }> {
-    return this.http.delete<Tarea & { isDeleted: boolean }>(`${API_TAREAS}/${id}`);
+    return this.http.delete<Tarea & { isDeleted: boolean }>(`${this.url()}/${id}`);
   }
 }
 
