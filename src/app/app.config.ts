@@ -4,6 +4,7 @@ import localeEsCo from '@angular/common/locales/es-CO';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
+import { provideHttpClient } from '@angular/common/http';
 
 // S03 · Configuración regional es-CO (diapositiva 21).
 // registerLocaleData carga los datos de formato de Colombia; LOCALE_ID los
@@ -19,5 +20,8 @@ export const appConfig: ApplicationConfig = {
     // S09 · withComponentInputBinding: :id y ?categoria= llegan a los input() del componente
     provideRouter(routes, withComponentInputBinding()), provideClientHydration(),
     { provide: LOCALE_ID, useValue: 'es-CO' },
+    // S10 · HttpClient. En Angular 22 ya está disponible en root y usa fetch por defecto;
+    // provideHttpClient() se declara para configurarlo (interceptores en la S11).
+    provideHttpClient(),
   ]
 };

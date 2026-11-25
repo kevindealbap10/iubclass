@@ -22,6 +22,8 @@ export const routes: Routes = [
   { path: 's08', loadComponent: () => import('./s08/s08').then((m) => m.S08) },
   // ejemplos de la sesión S09; loadChildren trae un mapa de rutas hijas completo
   { path: 's09', loadChildren: () => import('./s09/s09.routes').then((m) => m.S09_ROUTES) },
+  // ejemplos de la sesión S10: HttpClient contra una API pública
+  { path: 's10', loadChildren: () => import('./s10/s10.routes').then((m) => m.S10_ROUTES) },
   { path: 'acerca', component: Acerca },
   { path: '**', redirectTo: 'tablero' }, // cualquier otra URL vuelve al tablero
 ];
