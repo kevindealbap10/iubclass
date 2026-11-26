@@ -24,6 +24,8 @@ export const routes: Routes = [
   { path: 's09', loadChildren: () => import('./s09/s09.routes').then((m) => m.S09_ROUTES) },
   // ejemplos de la sesión S10: HttpClient contra una API pública
   { path: 's10', loadChildren: () => import('./s10/s10.routes').then((m) => m.S10_ROUTES) },
+  // ejemplos de la sesión S11: autenticación con token, interceptores y guards
+  { path: 's11', loadChildren: () => import('./s11/s11.routes').then((m) => m.S11_ROUTES) },
   { path: 'acerca', component: Acerca },
   { path: '**', redirectTo: 'tablero' }, // cualquier otra URL vuelve al tablero
 ];
